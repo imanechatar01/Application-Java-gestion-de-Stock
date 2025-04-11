@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CategorieController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">App_gestionStock</a> &gt; <a href="index.source.html" class="el_package">controllers</a> &gt; <span class="el_source">CategorieController.java</span></div><h1>CategorieController.java</h1><pre class="source lang-java linenums">/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package controllers;
+
+import entity.Categorie;
+import entity.CategorieDAO;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author hp
+ */
+<span class="fc" id="L17">public class CategorieController {</span>
+    
+<span class="fc" id="L19">    private CategorieDAO dao = new CategorieDAO();</span>
+    
+    public ArrayList&lt;Categorie&gt; getGategories(){
+<span class="nc" id="L22">        return dao.getCategorie();</span>
+    }
+    
+    public void addNewCategorie(String cat , String code) throws SQLException{
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if(dao.getCategorie(cat)){</span>
+<span class="nc" id="L27">             JOptionPane.showMessageDialog(null, &quot;Catégorie déja existe&quot;);</span>
+<span class="nc" id="L28">             return;</span>
+        }
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if(dao.addCategorie(cat, code)){</span>
+<span class="nc" id="L31">           JOptionPane.showMessageDialog(null, &quot;Categorie ajouter avec succé&quot;);</span>
+<span class="nc" id="L32">            return;</span>
+        }
+<span class="nc" id="L34">            JOptionPane.showMessageDialog(null, &quot;Erreur lord d'ajout la categorie&quot;);</span>
+<span class="nc" id="L35">    }</span>
+    //supprimer une categorie
+    
+    public void supprimerCat(String nomC){
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if(dao.deleteCat(nomC)){</span>
+<span class="nc" id="L40">             JOptionPane.showMessageDialog(null, &quot;Categorie suprimer avec succée avec succé&quot;);</span>
+<span class="nc" id="L41">            return;}</span>
+<span class="nc" id="L42">        JOptionPane.showMessageDialog(null, &quot;Erreur lord de suppression&quot;);</span>
+<span class="nc" id="L43">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

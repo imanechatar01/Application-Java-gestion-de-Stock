@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProduitDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">App_gestionStock</a> &gt; <a href="index.source.html" class="el_package">entity</a> &gt; <span class="el_source">ProduitDAO.java</span></div><h1>ProduitDAO.java</h1><pre class="source lang-java linenums">/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package entity;
+
+import dataBase.DB;
+import exceptions.InvalidePrixException;
+import java.sql.*;
+import java.util.ArrayList;
+
+
+/**
+ *
+ * @author hp
+ */
+<span class="fc" id="L17">public class ProduitDAO {</span>
+    private Produit p;
+    private ArrayList&lt;Produit&gt; list;
+    
+    
+    public boolean checkProduit(String code){
+        try {
+<span class="fc" id="L24">            PreparedStatement ps = DB.getInstance().prepareStatement(&quot;select * from produit where code =?&quot;);</span>
+<span class="fc" id="L25">             ps.setString(1,code);</span>
+<span class="fc" id="L26">             ResultSet rs = ps.executeQuery();</span>
+<span class="fc bfc" id="L27" title="All 2 branches covered.">             if(rs.next())</span>
+<span class="fc" id="L28">                 return true;</span>
+<span class="fc" id="L29">             return false;</span>
+<span class="nc" id="L30">        } catch (Exception e) {</span>
+<span class="nc" id="L31">            return false;</span>
+        }
+        
+        
+    }
+
+    
+    
+    
+    public boolean addProduit(String c, String n, float p, int idCat) throws InvalidePrixException {
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (p &lt;= 0) {  // Validation ajoutée</span>
+<span class="fc" id="L42">        throw new InvalidePrixException(&quot;Le prix doit être strictement positif&quot;);</span>
+    }
+        try {
+            // Vérifier d'abord que le produit n'existe pas déjà
+<span class="fc bfc" id="L46" title="All 2 branches covered.">            if (checkProduit(c)) {</span>
+<span class="fc" id="L47">                System.out.println(&quot;Le produit avec le code &quot; + c + &quot; existe déjà&quot;);</span>
+<span class="fc" id="L48">                return false;</span>
+            }
+            
+<span class="fc" id="L51">            System.out.println(&quot;Tentative d'ajout du produit: &quot; + c);</span>
+<span class="fc" id="L52">            PreparedStatement ps = DB.getInstance().prepareStatement(&quot;insert into produit (code, nomP, prix, categorie) values(?,?,?,?)&quot;);</span>
+<span class="fc" id="L53">            ps.setString(1, c);</span>
+<span class="fc" id="L54">            ps.setString(2, n);</span>
+<span class="fc" id="L55">            ps.setFloat(3, p);</span>
+<span class="fc" id="L56">            ps.setInt(4, idCat);</span>
+            
+<span class="fc" id="L58">            int result = ps.executeUpdate();</span>
+<span class="fc" id="L59">            System.out.println(&quot;Résultat de l'exécution: &quot; + result);</span>
+            
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            if(result &gt; 0)</span>
+<span class="fc" id="L62">                return true;</span>
+<span class="nc" id="L63">            return false;</span>
+<span class="fc" id="L64">        } catch (Exception e) {</span>
+<span class="fc" id="L65">            System.out.println(&quot;Erreur dans addProduit: &quot; + e.getMessage());</span>
+<span class="fc" id="L66">            e.printStackTrace();</span>
+<span class="fc" id="L67">            return false;</span>
+        }
+    }
+    
+    public boolean updateProduit(String codeActuel, String code, String n, float p, int idCat) throws InvalidePrixException {
+        try {
+<span class="fc" id="L73">            System.out.println(&quot;Tentative de mise à jour du produit: &quot; + codeActuel);</span>
+            // La requête SQL contient une erreur dans l'index des paramètres
+<span class="fc" id="L75">            PreparedStatement ps = DB.getInstance().prepareStatement(&quot;update produit set code=?, nomP=?, prix=?, categorie=? where code=?&quot;);</span>
+<span class="fc" id="L76">            ps.setString(1, code);</span>
+<span class="fc" id="L77">            ps.setString(2, n);</span>
+<span class="fc" id="L78">            ps.setFloat(3, p);</span>
+<span class="fc" id="L79">            ps.setInt(4, idCat);</span>
+<span class="fc" id="L80">            ps.setString(5, codeActuel); // Correction: index 5 au lieu de 6</span>
+            
+<span class="fc" id="L82">            int result = ps.executeUpdate();</span>
+<span class="fc" id="L83">            System.out.println(&quot;Résultat de la mise à jour: &quot; + result);</span>
+            
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            if(result &gt; 0)</span>
+<span class="fc" id="L86">                return true;</span>
+<span class="fc" id="L87">            return false;</span>
+<span class="fc" id="L88">        } catch (Exception e) {</span>
+<span class="fc" id="L89">            System.out.println(&quot;Erreur dans updateProduit: &quot; + e.getMessage());</span>
+<span class="fc" id="L90">            e.printStackTrace();</span>
+<span class="fc" id="L91">            return false;</span>
+        }
+    }
+    
+    public boolean deleteProduit(String code) {
+        try {
+<span class="fc" id="L97">            System.out.println(&quot;Tentative de suppression du produit: &quot; + code);</span>
+<span class="fc" id="L98">            PreparedStatement ps = DB.getInstance().prepareStatement(&quot;delete from produit where code=?&quot;);</span>
+<span class="fc" id="L99">            ps.setString(1, code);</span>
+            
+<span class="fc" id="L101">            int result = ps.executeUpdate();</span>
+<span class="fc" id="L102">            System.out.println(&quot;Résultat de la suppression: &quot; + result);</span>
+            
+<span class="fc bfc" id="L104" title="All 2 branches covered.">            if(result &gt; 0)</span>
+<span class="fc" id="L105">                return true;</span>
+<span class="fc" id="L106">            return false;</span>
+<span class="nc" id="L107">        } catch (Exception e) {</span>
+<span class="nc" id="L108">            System.out.println(&quot;Erreur dans deleteProduit: &quot; + e.getMessage());</span>
+<span class="nc" id="L109">            e.printStackTrace();</span>
+<span class="nc" id="L110">            return false;</span>
+        }
+    }
+    
+    
+
+public ArrayList&lt;Produit&gt; getProduit(String code){
+    try {
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if(code ==null)</span>
+<span class="fc" id="L119">              return null;</span>
+<span class="fc" id="L120">         PreparedStatement ps = DB.getInstance().prepareStatement(&quot;select * from produit p inner join categorie c on p.categorie = c.id   where p.code =?&quot;);</span>
+<span class="fc" id="L121">            ps.setString(1, code);</span>
+<span class="fc" id="L122">          ResultSet rs = ps.executeQuery();</span>
+<span class="fc" id="L123">          list = new ArrayList();</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">          while(rs.next()){</span>
+<span class="fc" id="L125">               p = new Produit(rs.getString(&quot;code&quot;),rs.getString(&quot;nomP&quot;),rs.getFloat(&quot;prix&quot;),rs.getString(&quot;nomC&quot;));</span>
+<span class="fc" id="L126">               list.add(p);</span>
+          }
+          
+<span class="fc" id="L129">          return list;</span>
+<span class="nc" id="L130">    } catch (Exception e) {</span>
+<span class="nc" id="L131">        System.out.println(e.getMessage());</span>
+<span class="nc" id="L132">        return null;</span>
+    }
+}
+public ArrayList&lt;Produit&gt; getAllProduit(){
+    try {
+<span class="fc" id="L137">         Statement ps = DB.getInstance().createStatement();</span>
+          
+<span class="fc" id="L139">          ResultSet rs = ps.executeQuery(&quot;select * from produit p inner join categorie c on p.categorie = c.id  &quot;);</span>
+<span class="fc" id="L140">          list = new ArrayList();</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">          while(rs.next()){</span>
+<span class="fc" id="L142">               p = new Produit(rs.getString(&quot;code&quot;),rs.getString(&quot;nomP&quot;),rs.getFloat(&quot;prix&quot;),rs.getString(&quot;nomC&quot;));</span>
+<span class="fc" id="L143">               list.add(p);</span>
+          }
+<span class="fc" id="L145">          return list;</span>
+<span class="nc" id="L146">    } catch (Exception e) {</span>
+<span class="nc" id="L147">        System.out.println(e.getMessage());</span>
+<span class="nc" id="L148">        return null;</span>
+    }
+}
+
+public Produit findByCode(String code){
+    Produit pro;
+
+    try {
+<span class="fc" id="L156">        PreparedStatement ps = DB.getInstance().prepareStatement(&quot;select p.* ,c.nomC from produit p inner join categorie c on c.id= p.categorie  where p.code =?&quot;);</span>
+<span class="fc" id="L157">        ps.setString(1, code);</span>
+<span class="fc" id="L158">        ResultSet rs = ps.executeQuery();</span>
+<span class="fc bfc" id="L159" title="All 2 branches covered.">        if(rs.next()){</span>
+<span class="fc" id="L160">         pro= new Produit(rs.getString(&quot;code&quot;),rs.getString(&quot;nomP&quot;),rs.getFloat(&quot;prix&quot;),rs.getString(&quot;nomC&quot;));</span>
+
+<span class="fc" id="L162">        return pro;</span>
+        }
+<span class="fc" id="L164">        return null;</span>
+<span class="nc" id="L165">    } catch (InvalidePrixException | SQLException e) {</span>
+        
+        
+<span class="nc" id="L168">        return null;</span>
+    }
+}
+//total des produit
+public int totalProduit(){
+    try {
+<span class="fc" id="L174">        int total=0 ;</span>
+<span class="fc" id="L175">        Statement st = DB.getInstance().createStatement();</span>
+<span class="fc" id="L176">        ResultSet rs = st.executeQuery(&quot;select e.quantite - s.quantite as totalProduit from entree_stock e inner join sortie_stock s on e.code_produit =s.code_produit ;&quot;);</span>
+        
+        
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">        while(rs.next()){</span>
+<span class="nc" id="L180">            total +=  rs.getInt(1);</span>
+         }
+        
+<span class="fc" id="L183">        return total;</span>
+<span class="nc" id="L184">    } catch (Exception e) {</span>
+<span class="nc" id="L185">        return -1;</span>
+    }
+}
+
+//recuperer la quantite de chaque produit
+
+public int getTotalByCode(String code){
+     try {
+<span class="fc" id="L193">        int total=-1 ;</span>
+<span class="fc" id="L194">        PreparedStatement st = DB.getInstance().prepareStatement(&quot;select e.quantite - s.quantite as totalProduit from entree_stock e inner join sortie_stock s on e.code_produit =s.code_produit where e.code_produit =? ;&quot;);</span>
+<span class="fc" id="L195">        st.setString(1, code);</span>
+<span class="fc" id="L196">        ResultSet rs = st.executeQuery();</span>
+        
+        
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if(rs.next()){</span>
+<span class="nc" id="L200">            total =  rs.getInt(1);</span>
+         }
+        
+<span class="fc" id="L203">        return total;</span>
+<span class="nc" id="L204">    } catch (Exception e) {</span>
+<span class="nc" id="L205">         System.out.println(e.getMessage());</span>
+<span class="nc" id="L206">        return -1;</span>
+    }
+    
+}
+//recuperer la valeur totel des prosuit
+public int valeurTotal(){
+    try {
+<span class="fc" id="L213">        int total=0 ;</span>
+<span class="fc" id="L214">        Statement st = DB.getInstance().createStatement();</span>
+<span class="fc" id="L215">        ResultSet rs = st.executeQuery(&quot;select (e.quantite - s.quantite)*p.prix as valeurTotal from entree_stock e inner join sortie_stock s on e.code_produit =s.code_produit inner join produit p on e.code_produit = p.code &quot;);</span>
+        
+        
+        
+<span class="pc bpc" id="L219" title="1 of 2 branches missed.">        while(rs.next()){</span>
+<span class="nc" id="L220">            total +=  rs.getInt(1);</span>
+         }
+        
+<span class="fc" id="L223">        return total;</span>
+<span class="nc" id="L224">    } catch (Exception e) {</span>
+<span class="nc" id="L225">        System.out.println(e.getMessage());</span>
+<span class="nc" id="L226">        return -1;</span>
+    }
+}
+
+
+//verifier un soritie de stock d'un produit
+public boolean isSortieStockExist(String code){
+    try{
+<span class="fc" id="L234">        PreparedStatement ps = DB.getInstance().prepareStatement(&quot;select * from sortie_stock where code_produit =? &quot;);</span>
+<span class="fc" id="L235">        ps.setString(1, code);</span>
+<span class="fc" id="L236">        ResultSet rs =ps.executeQuery();</span>
+<span class="fc" id="L237">       return rs.next();</span>
+    }
+<span class="nc" id="L239">    catch(Exception e){return false;}</span>
+    
+}
+
+//verifier un entree de stock d'un produit
+public boolean isEntreeStockExist(String code){
+    try{
+<span class="fc" id="L246">        PreparedStatement ps = DB.getInstance().prepareStatement(&quot;select * from entree_stock where code_produit =? &quot;);</span>
+<span class="fc" id="L247">        ps.setString(1, code);</span>
+<span class="fc" id="L248">        ResultSet rs =ps.executeQuery();</span>
+<span class="fc" id="L249">       return rs.next();</span>
+    }
+<span class="nc" id="L251">    catch(Exception e){return false;}</span>
+    
+}
+
+//recupere la quantite de soritie de stock d'un produit
+public int getQuatiteFromS(String code){
+     try{
+<span class="fc" id="L258">        int quantite =0;</span>
+<span class="fc" id="L259">        PreparedStatement ps = DB.getInstance().prepareStatement(&quot;select quantite from sortie_stock where code_produit =? &quot;);</span>
+<span class="fc" id="L260">        ps.setString(1, code);</span>
+<span class="fc" id="L261">        ResultSet rs =ps.executeQuery();</span>
+<span class="pc bpc" id="L262" title="1 of 2 branches missed.">       while(rs.next()){</span>
+<span class="nc" id="L263">           quantite += rs.getInt(1);</span>
+       }
+<span class="fc" id="L265">       return quantite;</span>
+    }
+<span class="nc" id="L267">    catch(Exception e){</span>
+<span class="nc" id="L268">        System.out.println(e.getMessage());</span>
+<span class="nc" id="L269">        return 0;}</span>
+    
+}
+
+//recupere la quantite de entree de stock d'un produit
+public int getQuatiteFromE(String code){
+    try{
+<span class="fc" id="L276">        int quantite =0;</span>
+<span class="fc" id="L277">        PreparedStatement ps = DB.getInstance().prepareStatement(&quot;select quantite from entree_stock where code_produit =? &quot;);</span>
+<span class="fc" id="L278">        ps.setString(1, code);</span>
+<span class="fc" id="L279">        ResultSet rs =ps.executeQuery();</span>
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">       while(rs.next()){</span>
+<span class="nc" id="L281">           quantite += rs.getInt(1);</span>
+       }
+<span class="fc" id="L283">       return quantite;</span>
+    }
+<span class="nc" id="L285">    catch(Exception e){return 0;}</span>
+    
+}
+
+public static void main(String[]args){
+<span class="nc" id="L290">    ProduitDAO p=new ProduitDAO();</span>
+<span class="nc" id="L291">    System.out.println(p.getTotalByCode(&quot;P_001&quot;));</span>
+<span class="nc" id="L292">     System.out.println(p.getAllProduit());</span>
+<span class="nc" id="L293">     System.out.println(p.getProduit(&quot;P_001&quot;));</span>
+<span class="nc" id="L294">     System.out.println(p.valeurTotal());</span>
+<span class="nc" id="L295">      System.out.println(p.getQuatiteFromS(&quot;P_243&quot;));</span>
+
+<span class="nc" id="L297">}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

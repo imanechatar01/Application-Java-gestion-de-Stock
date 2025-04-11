@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.testEntity.LoginControllerTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.708 s -- in com.testEntity.LoginControllerTest

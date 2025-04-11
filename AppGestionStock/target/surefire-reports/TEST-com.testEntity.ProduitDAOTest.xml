@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.testEntity.ProduitDAOTest" time="0.355" tests="25" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\hp\Desktop\Copy_miniProjet\copier_mini_projet\target\test-classes;C:\Users\hp\Desktop\Copy_miniProjet\copier_mini_projet\target\classes;C:\Users\hp\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\hp\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\hp\.m2\repository\org\netbeans\external\AbsoluteLayout\RELEASE230\AbsoluteLayout-RELEASE230.jar;C:\Users\hp\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\hp\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\hp\.m2\repository\org\mockito\mockito-core\5.17.0\mockito-core-5.17.0.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy\1.15.11\byte-buddy-1.15.11.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.11\byte-buddy-agent-1.15.11.jar;C:\Users\hp\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\hp\.m2\repository\com\h2database\h2\2.1.214\h2-2.1.214.jar;C:\Users\hp\.m2\repository\com\kloudtek\mule\elogging\mule-elogging-log4j2\0.9.3\mule-elogging-log4j2-0.9.3.jar;C:\Users\hp\.m2\repository\org\netbeans\external\absolute-layout\RELEASE82\absolute-layout-RELEASE82.jar;"/>
+    <property name="sun.awt.enableExtraMouseButtons" value="true"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Africa/Casablanca"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
+    <property name="sun.java.command" value="C:\Users\hp\AppData\Local\Temp\surefire13829437474780006406\surefirebooter-20250410122102281_3.jar C:\Users\hp\AppData\Local\Temp\surefire13829437474780006406 2025-04-10T12-21-02_069-jvmRun1 surefire-20250410122102281_1tmp surefire_0-20250410122102281_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\hp\Desktop\Copy_miniProjet\copier_mini_projet\target\test-classes;C:\Users\hp\Desktop\Copy_miniProjet\copier_mini_projet\target\classes;C:\Users\hp\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\hp\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;C:\Users\hp\.m2\repository\org\netbeans\external\AbsoluteLayout\RELEASE230\AbsoluteLayout-RELEASE230.jar;C:\Users\hp\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\hp\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\hp\.m2\repository\org\mockito\mockito-core\5.17.0\mockito-core-5.17.0.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy\1.15.11\byte-buddy-1.15.11.jar;C:\Users\hp\.m2\repository\net\bytebuddy\byte-buddy-agent\1.15.11\byte-buddy-agent-1.15.11.jar;C:\Users\hp\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\hp\.m2\repository\com\h2database\h2\2.1.214\h2-2.1.214.jar;C:\Users\hp\.m2\repository\com\kloudtek\mule\elogging\mule-elogging-log4j2\0.9.3\mule-elogging-log4j2-0.9.3.jar;C:\Users\hp\.m2\repository\org\netbeans\external\absolute-layout\RELEASE82\absolute-layout-RELEASE82.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\hp"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2024-10-15"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-21"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\hp\Desktop\Copy_miniProjet\copier_mini_projet"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\hp\AppData\Local\Temp\surefire13829437474780006406\surefirebooter-20250410122102281_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21.0.5+9-LTS-239"/>
+    <property name="user.name" value="hp"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\hp\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\hp\AppData\Local\Temp\"/>
+    <property name="java.version" value="21.0.5"/>
+    <property name="user.dir" value="C:\Users\hp\Desktop\Copy_miniProjet\copier_mini_projet"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-21\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Java\jdk-21\bin;C:\Windows\system32;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files\Git\cmd;C:\xampp\php;C:\composer;C:\Program Files\apache-maven-3.9.9\bin;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\hp\AppData\Local\Programs\Python\Launcher\;C:\Users\hp\AppData\Local\Microsoft\WindowsApps;C:\Users\hp\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\hp\.dotnet\tools;C:\Users\hp\AppData\Local\GitHubDesktop\bin;C:\Users\hp\AppData\Roaming\Composer\vendor\bin;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2024.3.3\bin;;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="21.0.5+9-LTS-239"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="testValeurTotal" classname="com.testEntity.ProduitDAOTest" time="0.003">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testGetProduit_ProduitExistant" classname="com.testEntity.ProduitDAOTest" time="0.012">
+    <system-out><![CDATA[Tentative d'ajout du produit: TEST_P001
+Résultat de l'exécution: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testGetAllProduit" classname="com.testEntity.ProduitDAOTest" time="0.005">
+    <system-out><![CDATA[Tentative d'ajout du produit: TEST_P001
+Résultat de l'exécution: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testGetProduit_ProduitInexistant" classname="com.testEntity.ProduitDAOTest" time="0.017">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testIsSortieStockExist" classname="com.testEntity.ProduitDAOTest" time="0.008">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testGetQuatiteFromE" classname="com.testEntity.ProduitDAOTest" time="0.007">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testGetQuatiteFromS" classname="com.testEntity.ProduitDAOTest" time="0.004">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testDeleteProduitNonExistent" classname="com.testEntity.ProduitDAOTest" time="0.002">
+    <system-out><![CDATA[Tentative de suppression du produit: CODE_INEXISTANT
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testIsEntreeStockExist" classname="com.testEntity.ProduitDAOTest" time="0.002">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testFindByCodeNotExists" classname="com.testEntity.ProduitDAOTest" time="0.005">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testAddProduitWithInvalidCategory" classname="com.testEntity.ProduitDAOTest" time="0.118">
+    <system-out><![CDATA[Tentative d'ajout du produit: NEW_CODE
+Erreur dans addProduit: Cannot add or update a child row: a foreign key constraint fails (`gestionstock`.`produit`, CONSTRAINT `fk_produit` FOREIGN KEY (`categorie`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+    <system-err><![CDATA[java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`gestionstock`.`produit`, CONSTRAINT `fk_produit` FOREIGN KEY (`categorie`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:118)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+	at entity.ProduitDAO.addProduit(ProduitDAO.java:58)
+	at com.testEntity.ProduitDAOTest.testAddProduitWithInvalidCategory(ProduitDAOTest.java:84)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:316)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:240)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:214)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:155)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+]]></system-err>
+  </testcase>
+  <testcase name="testAddProduitSuccess" classname="com.testEntity.ProduitDAOTest" time="0.008">
+    <system-out><![CDATA[Tentative d'ajout du produit: TEST_P001
+Résultat de l'exécution: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testAddProduitWithNegativePrice" classname="com.testEntity.ProduitDAOTest" time="0.007">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testGetProduit_MultiplesProduitsMemeCode" classname="com.testEntity.ProduitDAOTest" time="0.004">
+    <system-out><![CDATA[Tentative d'ajout du produit: TEST_P001
+Résultat de l'exécution: 1
+Le produit avec le code TEST_P001 existe déjà
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testCheckProduitWithNullCode" classname="com.testEntity.ProduitDAOTest" time="0.003">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testFindByCodeExists" classname="com.testEntity.ProduitDAOTest" time="0.006">
+    <system-out><![CDATA[Tentative d'ajout du produit: TEST_P001
+Résultat de l'exécution: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testUpdateProduitWithInvalidCategory" classname="com.testEntity.ProduitDAOTest" time="0.056">
+    <system-out><![CDATA[Tentative d'ajout du produit: TEST_P001
+Résultat de l'exécution: 1
+Tentative de mise à jour du produit: TEST_P001
+Erreur dans updateProduit: Cannot add or update a child row: a foreign key constraint fails (`gestionstock`.`produit`, CONSTRAINT `fk_produit` FOREIGN KEY (`categorie`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+    <system-err><![CDATA[java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`gestionstock`.`produit`, CONSTRAINT `fk_produit` FOREIGN KEY (`categorie`) REFERENCES `categorie` (`id`) ON DELETE CASCADE ON UPDATE CASCADE)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:118)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeInternal(ClientPreparedStatement.java:916)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1061)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdateInternal(ClientPreparedStatement.java:1009)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeLargeUpdate(ClientPreparedStatement.java:1320)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeUpdate(ClientPreparedStatement.java:994)
+	at entity.ProduitDAO.updateProduit(ProduitDAO.java:82)
+	at com.testEntity.ProduitDAOTest.testUpdateProduitWithInvalidCategory(ProduitDAOTest.java:131)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:59)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:56)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:17)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:26)
+	at org.junit.internal.runners.statements.RunAfters.evaluate(RunAfters.java:27)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.BlockJUnit4ClassRunner$1.evaluate(BlockJUnit4ClassRunner.java:100)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:366)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:103)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:63)
+	at org.junit.runners.ParentRunner$4.run(ParentRunner.java:331)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:79)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:329)
+	at org.junit.runners.ParentRunner.access$100(ParentRunner.java:66)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:293)
+	at org.junit.runners.ParentRunner$3.evaluate(ParentRunner.java:306)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:413)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:316)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeWithRerun(JUnit4Provider.java:240)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:214)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:155)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+]]></system-err>
+  </testcase>
+  <testcase name="testGetProduit_AvecCodeNull" classname="com.testEntity.ProduitDAOTest" time="0.008">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testGetTotalByCode" classname="com.testEntity.ProduitDAOTest" time="0.005">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testUpdateProduitSuccess" classname="com.testEntity.ProduitDAOTest" time="0.003">
+    <system-out><![CDATA[Tentative d'ajout du produit: TEST_P001
+Résultat de l'exécution: 1
+Tentative de mise à jour du produit: TEST_P001
+Résultat de la mise à jour: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testTotalProduit" classname="com.testEntity.ProduitDAOTest" time="0.005">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testUpdateProduitNonExistent" classname="com.testEntity.ProduitDAOTest" time="0.005">
+    <system-out><![CDATA[Tentative de mise à jour du produit: CODE_INEXISTANT
+Résultat de la mise à jour: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testCheckProduitNotExists" classname="com.testEntity.ProduitDAOTest" time="0.003">
+    <system-out><![CDATA[Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testAddProduitDuplicate" classname="com.testEntity.ProduitDAOTest" time="0.011">
+    <system-out><![CDATA[Tentative d'ajout du produit: TEST_P001
+Résultat de l'exécution: 1
+Le produit avec le code TEST_P001 existe déjà
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+  <testcase name="testDeleteProduitSuccess" classname="com.testEntity.ProduitDAOTest" time="0.026">
+    <system-out><![CDATA[Tentative d'ajout du produit: TEST_P001
+Résultat de l'exécution: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 1
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+Tentative de suppression du produit: TEST_P001
+Résultat de la suppression: 0
+]]></system-out>
+  </testcase>
+</testsuite>

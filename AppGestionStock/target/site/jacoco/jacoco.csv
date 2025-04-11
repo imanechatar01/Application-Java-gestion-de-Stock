@@ -1,0 +1,58 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+App_gestionStock,dataBase,DB,3,22,0,2,2,8,0,4,0,3
+App_gestionStock,view,Main,14,0,0,0,4,0,3,0,3,0
+App_gestionStock,view,RegistreIHM,677,0,4,0,147,0,6,0,4,0
+App_gestionStock,view,UserIHM.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+App_gestionStock,view,UserIHM.new ActionListener() {...},92,0,0,0,20,0,2,0,2,0
+App_gestionStock,view,UserIHM.new ActionListener() {...},61,0,0,0,15,0,2,0,2,0
+App_gestionStock,view,UserIHM.new ActionListener() {...},16,6,0,0,6,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},19,6,0,0,7,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},1,3,0,0,1,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},4,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},10,6,0,0,4,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},4,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},4,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},4,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},13,6,0,0,5,1,1,1,1,1
+App_gestionStock,view,UserIHM,1072,4272,37,7,268,903,64,12,43,11
+App_gestionStock,view,RegistreIHM.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+App_gestionStock,view,RegistreIHM.new ActionListener() {...},11,0,0,0,3,0,2,0,2,0
+App_gestionStock,view,LoginIHM.new Runnable() {...},9,0,0,0,3,0,2,0,2,0
+App_gestionStock,view,LoginIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},4,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,LoginIHM,83,352,4,0,19,79,4,2,2,2
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,view,UserIHM.new ActionListener() {...},5,6,0,0,2,1,1,1,1,1
+App_gestionStock,controllers,LoginController,0,43,0,2,0,13,0,3,0,2
+App_gestionStock,controllers,CategorieController,40,8,6,0,14,2,6,1,3,1
+App_gestionStock,controllers,StockController,150,18,22,0,46,5,23,1,12,1
+App_gestionStock,controllers,RegistreController,52,0,4,0,17,0,4,0,2,0
+App_gestionStock,controllers,ProduitController,51,84,7,9,16,23,7,9,1,7
+App_gestionStock,entity,Categorie,21,18,0,0,9,7,6,3,6,3
+App_gestionStock,entity,Produit,0,54,0,2,0,20,0,11,0,10
+App_gestionStock,entity,SortieStock,56,0,0,0,24,0,12,0,12,0
+App_gestionStock,entity,User,0,66,0,0,0,28,0,14,0,14
+App_gestionStock,entity,EntreeStockDAO,272,8,8,0,69,2,10,1,6,1
+App_gestionStock,entity,SortieStockDAO,115,8,4,0,30,2,5,1,3,1
+App_gestionStock,entity,EntreeStock,0,56,0,0,0,23,0,12,0,12
+App_gestionStock,entity,UserDAO,31,106,0,4,13,32,1,7,1,5
+App_gestionStock,entity,CategorieDAO,62,42,4,2,23,8,6,3,4,2
+App_gestionStock,entity,ProduitDAO,125,397,6,24,41,110,7,24,1,15
+App_gestionStock,exceptions,InvalidePrixException,0,4,0,0,0,2,0,1,0,1

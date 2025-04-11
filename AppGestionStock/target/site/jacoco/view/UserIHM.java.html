@@ -1,0 +1,2108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserIHM.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">App_gestionStock</a> &gt; <a href="index.source.html" class="el_package">view</a> &gt; <span class="el_source">UserIHM.java</span></div><h1>UserIHM.java</h1><pre class="source lang-java linenums">/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package view;
+import controllers.CategorieController;
+import controllers.ProduitController;
+import controllers.StockController;
+import entity.Categorie;
+
+import entity.CategorieDAO;
+import entity.EntreeStock;
+import entity.Produit;
+import entity.ProduitDAO;
+import entity.SortieStock;
+import exceptions.InvalidePrixException;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+/**
+ *
+ * @author hp
+ */
+public class UserIHM extends javax.swing.JFrame {
+
+    /**
+     * Creates new form UserIHM
+     */
+<span class="nc" id="L47">   public UserIHM() {</span>
+<span class="nc" id="L48">    initComponents();</span>
+    
+    // Initialisation des modèles de table
+<span class="nc" id="L51">    mrd = (DefaultTableModel) table.getModel();</span>
+
+<span class="nc" id="L53">    cmdTestCat.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="nc" id="L54">        cmdTestCat.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="nc" id="L55">        cmdTestCat.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="nc" id="L56">        cmdTestCat.setText(&quot;Gestion Categories&quot;);</span>
+<span class="nc" id="L57">    setupListeners();</span>
+<span class="nc" id="L58">    afficherTableauBord();</span>
+<span class="nc" id="L59">    remplir_categorie();</span>
+<span class="nc" id="L60">    remplircmbProduit();</span>
+<span class="nc" id="L61">    remplircmbProduit_2();</span>
+    
+<span class="nc" id="L63">    GestionProduitsPanel.setVisible(false);</span>
+<span class="nc" id="L64">    ajouterProduitPanel.setVisible(false);</span>
+<span class="nc" id="L65">    dashboardPanel.setVisible(true);</span>
+<span class="nc" id="L66">}</span>
+
+<span class="fc" id="L68">public UserIHM(String nom) {</span>
+<span class="fc" id="L69">    initComponents();</span>
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">    if (nameUser != null) {</span>
+<span class="fc" id="L71">        nameUser.setText(nom);</span>
+    } else {
+<span class="nc" id="L73">        System.out.println(&quot;nameUser n'est pas initialisé !&quot;);</span>
+    }
+<span class="fc" id="L75">    cmdTestCat.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="fc" id="L76">        cmdTestCat.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L77">        cmdTestCat.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L78">        cmdTestCat.setText(&quot;Gestion Categories&quot;);</span>
+<span class="fc" id="L79">    setupListeners(); </span>
+<span class="fc" id="L80">    afficherTableauBord(); // Affiche le tableau de bord par défaut</span>
+<span class="fc" id="L81">    remplir_categorie();</span>
+<span class="fc" id="L82">    remplircmbProduit();</span>
+<span class="fc" id="L83">    remplircmbProduit_2();</span>
+<span class="fc" id="L84">    afficherproduits();</span>
+    // À la fin de votre constructeur
+<span class="fc" id="L86">GestionProduitsPanel.setVisible(false);</span>
+<span class="fc" id="L87">ajouterProduitPanel.setVisible(false);</span>
+<span class="fc" id="L88">GestionCategoriePanel.setVisible(false);</span>
+<span class="fc" id="L89">dashboardPanel.setVisible(true);</span>
+<span class="fc" id="L90">}</span>
+
+// gestion des boutons
+
+/**
+ * Gère la déconnexion de l'utilisateur
+ */
+private void deconnexion() {
+    // Ajoutez le code pour retourner à l'écran de connexion
+<span class="nc" id="L99">    this.dispose(); // Ferme la fenêtre actuelle</span>
+
+<span class="nc" id="L101">    new LoginIHM().setVisible(true);</span>
+<span class="nc" id="L102">}</span>
+
+ private void updateButtonStyles(javax.swing.JButton selectedButton) {
+    // Réinitialise tous les boutons
+<span class="fc" id="L106">    cmdBord.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="fc" id="L107">    cmdGP.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="fc" id="L108">    cmdES.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="fc" id="L109">    cmdSS.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="fc" id="L110">    cmdTestCat.setBackground(new java.awt.Color(153, 153, 153));</span>
+
+   
+<span class="fc" id="L113">    selectedButton.setBackground(new java.awt.Color(102, 102, 255));</span>
+<span class="fc" id="L114">}</span>
+
+
+
+
+/**
+ * Configure les écouteurs d'événements pour les boutons
+ */
+private void setupListeners() {
+    // ActionListener pour le bouton Tableau de bord
+<span class="fc" id="L124">    cmdBord.addActionListener(new java.awt.event.ActionListener() {</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L126">            afficherTableauBord();</span>
+<span class="nc" id="L127">        }</span>
+    });
+
+  
+    // ActionListener pour le bouton Entrées Stock
+<span class="fc" id="L132">    cmdES.addActionListener(new java.awt.event.ActionListener() {</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            try {
+<span class="nc" id="L135">                afficherEntreesStock();</span>
+<span class="nc" id="L136">            } catch (Exception ex) {</span>
+<span class="nc" id="L137">                Logger.getLogger(UserIHM.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L138">            }</span>
+<span class="nc" id="L139">        }</span>
+    });
+
+    // ActionListener pour le bouton Sorties Stock
+<span class="fc" id="L143">    cmdSS.addActionListener(new java.awt.event.ActionListener() {</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L145">            afficherSortiesStock();</span>
+<span class="nc" id="L146">        }</span>
+    });
+
+    // Ajoutez un listener pour le bouton de déconnexion
+<span class="fc" id="L150">    cmdLogout.addActionListener(new java.awt.event.ActionListener() {</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L152">            deconnexion();</span>
+<span class="nc" id="L153">        }</span>
+    });
+<span class="fc" id="L155">    cmdAjouterProduit.addActionListener(new java.awt.event.ActionListener(){</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt){
+<span class="nc" id="L157">            afficherAjouterProduit();</span>
+            
+<span class="nc" id="L159">        }</span>
+    });
+   
+   
+<span class="fc" id="L163">    table.getSelectionModel().addListSelectionListener(e -&gt; {</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">    if (!e.getValueIsAdjusting()) {</span>
+<span class="nc" id="L165">        remplirFormulaireDepuisTable();</span>
+    }
+    
+<span class="nc" id="L168">});</span>
+<span class="fc" id="L169">    cmdSaveES.addActionListener(new java.awt.event.ActionListener(){</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt){
+<span class="nc" id="L171">          saveEntreeStock();</span>
+<span class="nc" id="L172">           showEntreeStock();</span>
+<span class="nc" id="L173">           afficherproduits();</span>
+<span class="nc" id="L174">        }</span>
+    });
+<span class="fc" id="L176">    cmdsaveSS.addActionListener(new java.awt.event.ActionListener(){</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt){
+            try {
+<span class="nc" id="L179">                saveSS();</span>
+<span class="nc" id="L180">                showSortieStock();</span>
+<span class="nc" id="L181">                afficherproduits();</span>
+<span class="nc" id="L182">            } catch (Exception ex) {</span>
+<span class="nc" id="L183">                Logger.getLogger(UserIHM.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L184">            }</span>
+           
+<span class="nc" id="L186">        }</span>
+    });
+<span class="fc" id="L188">    cmdSaveCat.addActionListener(new java.awt.event.ActionListener(){</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt){
+    
+<span class="nc" id="L191">        }</span>
+    });
+<span class="fc" id="L193">    cmdEnregistrerCate.addActionListener(new java.awt.event.ActionListener(){</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt){
+            try {
+<span class="nc" id="L196">                enregistrerCate();</span>
+<span class="nc" id="L197">            } catch (SQLException ex) {</span>
+<span class="nc" id="L198">                Logger.getLogger(UserIHM.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L199">            }</span>
+<span class="nc" id="L200">             getAllCategories();</span>
+<span class="nc" id="L201">        }</span>
+       
+    });
+<span class="fc" id="L204">    cmdTestCat.addActionListener(new java.awt.event.ActionListener(){</span>
+        public void actionPerformed(java.awt.event.ActionEvent evt){
+<span class="nc" id="L206">             afficherGestionCategories();</span>
+<span class="nc" id="L207">        }</span>
+       
+    });
+   
+    
+
+<span class="fc" id="L213">}</span>
+
+
+
+
+
+
+//Partie de gestion des Affichages
+
+
+private void afficherTableauBord() {
+    // Cache tous les panneaux
+     
+   
+<span class="fc" id="L227">    remplir_categorie();</span>
+<span class="fc" id="L228">    remplircmbProduit();</span>
+<span class="fc" id="L229">    remplircmbProduit_2();</span>
+<span class="fc" id="L230">    GestionProduitsPanel.setVisible(false);</span>
+<span class="fc" id="L231">    GestionCategoriePanel.setVisible(false);</span>
+<span class="fc" id="L232">     ajouterCategorieFormPanel.setVisible(false);</span>
+<span class="fc" id="L233">     gestionEntrerStockPanel.setVisible(false);</span>
+<span class="fc" id="L234">      gestionSortieStockPanel.setVisible(false);</span>
+<span class="fc" id="L235">      testPanel.setVisible(false);</span>
+    // Affiche le dashboard avec les statistiques
+<span class="fc" id="L237">    totalProduit();</span>
+<span class="fc" id="L238">    totalValue();</span>
+<span class="fc" id="L239">    afficherproduits();</span>
+<span class="fc" id="L240">    dashboardPanel.setVisible(true);</span>
+<span class="fc" id="L241">    CardLayout cl = (CardLayout) dashboardPanel.getLayout();</span>
+  
+    
+    // Mise à jour visuelle du bouton sélectionné
+<span class="fc" id="L245">    updateButtonStyles(cmdBord);</span>
+<span class="fc" id="L246">}</span>
+
+/**
+ * Affiche le panneau de gestion des produits
+ */
+private void afficherGestionProduits() {
+     
+    
+<span class="nc" id="L254">    remplir_categorie();</span>
+<span class="nc" id="L255">    remplircmbProduit();</span>
+<span class="nc" id="L256">    remplircmbProduit_2();</span>
+    // Cache le dashboard
+<span class="nc" id="L258">    dashboardPanel.setVisible(false);</span>
+<span class="nc" id="L259">    GestionCategoriePanel.setVisible(false);</span>
+<span class="nc" id="L260">     ajouterCategorieFormPanel.setVisible(false);</span>
+<span class="nc" id="L261">      gestionEntrerStockPanel.setVisible(false);</span>
+<span class="nc" id="L262">       gestionSortieStockPanel.setVisible(false);</span>
+<span class="nc" id="L263">       testPanel.setVisible(false);</span>
+    // Affiche le panneau de gestion des produits
+<span class="nc" id="L265">    GestionProduitsPanel.setVisible(true);</span>
+<span class="nc" id="L266">    afficherproduits();</span>
+    // Mise à jour visuelle du bouton sélectionné
+<span class="nc" id="L268">    updateButtonStyles(cmdGP);</span>
+<span class="nc" id="L269">}</span>
+
+/**
+ * Affiche le panneau des entrées de stock 
+ */
+private void afficherEntreesStock() throws Exception {
+  
+    
+<span class="nc" id="L277">    remplir_categorie();</span>
+<span class="nc" id="L278">    remplircmbProduit();</span>
+<span class="nc" id="L279">    remplircmbProduit_2();</span>
+    // À implémenter: créer et afficher le panneau pour les entrées de stock
+<span class="nc" id="L281">    GestionProduitsPanel.setVisible(false);</span>
+<span class="nc" id="L282">    GestionCategoriePanel.setVisible(false);</span>
+<span class="nc" id="L283">     ajouterCategorieFormPanel.setVisible(false);</span>
+<span class="nc" id="L284">    dashboardPanel.setVisible(false);</span>
+<span class="nc" id="L285">     gestionSortieStockPanel.setVisible(false);</span>
+<span class="nc" id="L286">    gestionEntrerStockPanel.setVisible(true);</span>
+<span class="nc" id="L287">    testPanel.setVisible(false);</span>
+<span class="nc" id="L288">  showEntreeStock();</span>
+ 
+<span class="nc" id="L290">    updateButtonStyles(cmdES);</span>
+<span class="nc" id="L291">}</span>
+
+/**
+ * Affiche le panneau des sorties de stock 
+ */
+private void afficherSortiesStock() {
+    
+   
+<span class="nc" id="L299">    remplir_categorie();</span>
+<span class="nc" id="L300">    remplircmbProduit();</span>
+<span class="nc" id="L301">    remplircmbProduit_2();</span>
+    // À implémenter: créer et afficher le panneau pour les sorties de stock
+<span class="nc" id="L303">    GestionProduitsPanel.setVisible(false);</span>
+<span class="nc" id="L304">    GestionCategoriePanel.setVisible(false);</span>
+<span class="nc" id="L305">   gestionEntrerStockPanel.setVisible(false);</span>
+<span class="nc" id="L306">   testPanel.setVisible(false);</span>
+<span class="nc" id="L307">    dashboardPanel.setVisible(false);</span>
+<span class="nc" id="L308">     gestionSortieStockPanel.setVisible(true);</span>
+     
+<span class="nc" id="L310">     showSortieStock();</span>
+<span class="nc" id="L311">  updateButtonStyles(cmdSS);</span>
+<span class="nc" id="L312">}</span>
+  /*Affiche le panneau d'ajouter un nouveau produit 
+ */
+/**
+ * Affiche le formulaire d'ajout de produit
+ */
+private void afficherAjouterProduit() {
+    
+    
+<span class="nc" id="L321">    remplir_categorie();</span>
+<span class="nc" id="L322">    remplircmbProduit();</span>
+<span class="nc" id="L323">    remplircmbProduit_2();</span>
+    // Cachez tous les autres panneaux si nécessaire
+<span class="nc" id="L325">    GestionProduitsPanel.setVisible(false);</span>
+<span class="nc" id="L326">    GestionCategoriePanel.setVisible(false);</span>
+<span class="nc" id="L327">    dashboardPanel.setVisible(false);</span>
+<span class="nc" id="L328">  ajouterCategorieFormPanel.setVisible(false);</span>
+<span class="nc" id="L329"> gestionEntrerStockPanel.setVisible(false);</span>
+<span class="nc" id="L330"> gestionSortieStockPanel.setVisible(false);</span>
+<span class="nc" id="L331"> testPanel.setVisible(false);</span>
+<span class="nc" id="L332">      ajouterProduitPanel.setVisible(true);</span>
+<span class="nc" id="L333">    updateButtonStyles(cmdGP);</span>
+<span class="nc" id="L334"> }</span>
+
+//methode pour afficher le formulaire d'ajout d'un nouveau categorie
+private void afficherAjouterCatForm(){
+     
+<span class="nc" id="L339">    remplir_categorie();</span>
+<span class="nc" id="L340">    remplircmbProduit();</span>
+<span class="nc" id="L341">    remplircmbProduit_2();</span>
+<span class="nc" id="L342">    dashboardPanel.setVisible(false);</span>
+<span class="nc" id="L343">      ajouterProduitPanel.setVisible(false);</span>
+<span class="nc" id="L344">         GestionProduitsPanel.setVisible(false);</span>
+<span class="nc" id="L345">         GestionCategoriePanel.setVisible(false);</span>
+<span class="nc" id="L346">        gestionEntrerStockPanel.setVisible(false);</span>
+<span class="nc" id="L347">         gestionSortieStockPanel.setVisible(false);</span>
+<span class="nc" id="L348">         testPanel.setVisible(false);</span>
+<span class="nc" id="L349">         ajouterCategorieFormPanel.setVisible(true);</span>
+    
+<span class="nc" id="L351">}</span>
+
+// afficher test des categorie panel
+
+public void afficherGestionCategories(){
+     
+  
+<span class="nc" id="L358">    remplir_categorie();</span>
+<span class="nc" id="L359">    remplircmbProduit();</span>
+<span class="nc" id="L360">    remplircmbProduit_2();</span>
+<span class="nc" id="L361">    dashboardPanel.setVisible(false);</span>
+<span class="nc" id="L362">      ajouterProduitPanel.setVisible(false);</span>
+<span class="nc" id="L363">         GestionProduitsPanel.setVisible(false);</span>
+<span class="nc" id="L364">         GestionCategoriePanel.setVisible(false);</span>
+<span class="nc" id="L365">        gestionEntrerStockPanel.setVisible(false);</span>
+<span class="nc" id="L366">         gestionSortieStockPanel.setVisible(false);</span>
+<span class="nc" id="L367">         ajouterCategorieFormPanel.setVisible(false);</span>
+<span class="nc" id="L368">         testPanel.setVisible(true);</span>
+<span class="nc" id="L369">         getAllCategories();</span>
+<span class="nc" id="L370">         updateButtonStyles(cmdTestCat);</span>
+<span class="nc" id="L371">}</span>
+
+
+
+
+
+
+//Partie de Gestion des Produits
+
+//remplir le comboboxBroduit par produit 
+
+public void remplircmbProduit(){
+<span class="fc" id="L383">    cmbProduit.removeAllItems();</span>
+<span class="fc" id="L384">listProduit =pdao.getAllProduit();</span>
+<span class="pc bpc" id="L385" title="1 of 2 branches missed.">    for(Produit p:listProduit){</span>
+<span class="nc" id="L386">        cmbProduit.addItem(p);</span>
+       
+<span class="nc" id="L388">    }</span>
+<span class="fc" id="L389">    list.clear();</span>
+<span class="fc" id="L390">}</span>
+
+public void remplircmbProduit_2(){
+<span class="fc" id="L393">    cmb_produit.removeAllItems();</span>
+<span class="fc" id="L394">    ArrayList&lt;Produit&gt; listP = pdao.getAllProduit();</span>
+<span class="pc bpc" id="L395" title="1 of 2 branches missed.">    for(Produit p:listP){</span>
+<span class="nc" id="L396">        cmb_produit.addItem(p);</span>
+<span class="nc" id="L397">    }</span>
+<span class="fc" id="L398">        listP.clear();</span>
+  
+<span class="fc" id="L400">}</span>
+
+
+//methode pour afficher les information d'un produit selectionner dans le formulaire
+private void remplirFormulaireDepuisTable() {
+   
+<span class="nc" id="L406">    int selectedRow = table.getSelectedRow();</span>
+<span class="nc bnc" id="L407" title="All 2 branches missed.">    if (selectedRow != -1) {</span>
+        
+<span class="nc" id="L409">        txtCode.setText(table.getValueAt(selectedRow, 0).toString());</span>
+<span class="nc" id="L410">        txtNom.setText(table.getValueAt(selectedRow, 1).toString());</span>
+<span class="nc" id="L411">        cmbCategorie.setSelectedItem(table.getValueAt(selectedRow, 2).toString());</span>
+       
+<span class="nc" id="L413">        txtPrix.setText(table.getValueAt(selectedRow, 4).toString());</span>
+<span class="nc" id="L414">        currentCode=table.getValueAt(selectedRow, 0).toString();</span>
+        
+    }
+<span class="nc" id="L417">}</span>
+  
+
+//Methode de suppression d'un produit
+private void supprimerProduit(){
+     
+    // Vérifier la réponse de l'utilisateur
+   
+<span class="nc" id="L425">     int selectedRow = table.getSelectedRow();</span>
+<span class="nc bnc" id="L426" title="All 2 branches missed.">    if (selectedRow != -1) {</span>
+<span class="nc" id="L427">        int reponse = JOptionPane.showConfirmDialog(</span>
+        this,
+        &quot;Êtes-vous sûr de vouloir supprimer ce produit ?&quot;,
+        &quot;Confirmation de suppression&quot;,
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE
+    );
+<span class="nc bnc" id="L434" title="All 2 branches missed.">     if (reponse == JOptionPane.YES_OPTION) {</span>
+        // L'utilisateur a confirmé, procéder à la suppression
+<span class="nc" id="L436">        pcontroller.deleteProduit(table.getValueAt(selectedRow, 0).toString());</span>
+<span class="nc" id="L437">        afficherproduits();</span>
+    }
+      
+<span class="nc" id="L440">    }</span>
+    else{
+<span class="nc" id="L442">        JOptionPane.showMessageDialog(null, &quot;vueiller selectionner un produit&quot;);</span>
+    }
+        
+<span class="nc" id="L445">}</span>
+
+private void afficherproduits(){
+<span class="fc" id="L448">      mrd = (DefaultTableModel)table.getModel();</span>
+     ArrayList&lt;Produit&gt; listProduit;
+<span class="fc" id="L450">     listProduit = pcontroller.getAllProducts();</span>
+<span class="pc bpc" id="L451" title="1 of 2 branches missed.">     if(listProduit == null){</span>
+<span class="nc" id="L452">          JOptionPane.showMessageDialog(null, &quot;getAllProduct est null &quot;);</span>
+<span class="nc" id="L453">          return;</span>
+     }
+<span class="fc" id="L455">   int quantite =0;</span>
+<span class="fc" id="L456">  int totalProduit =0;</span>
+<span class="fc" id="L457">  int totalValue=0;</span>
+<span class="fc" id="L458">       mrd.setNumRows(0);</span>
+<span class="pc bpc" id="L459" title="1 of 2 branches missed.">        for(Produit p :listProduit ){</span>
+<span class="nc" id="L460">            quantite =pcontroller.quantiteProduit(p.getCode());</span>
+<span class="nc" id="L461">            mrd.addRow(new Object[]{p.getCode() , p.getNomP(), p.getCategorie(),quantite,p.getPrix()});</span>
+<span class="nc" id="L462">            totalProduit +=quantite;</span>
+<span class="nc" id="L463">            totalValue += quantite *p.getPrix();</span>
+       
+<span class="nc" id="L465">        }</span>
+<span class="fc" id="L466">           lbltotalProduit.setText(String.valueOf(totalProduit));</span>
+<span class="fc" id="L467">          lblValeurTotal.setText(String.valueOf(totalValue+&quot; DH&quot;));</span>
+     
+<span class="fc" id="L469">}</span>
+
+
+private void ajouterProduit()throws InvalidePrixException{
+<span class="nc" id="L473">    String code = txtCode.getText();</span>
+<span class="nc" id="L474">    String nom = txtNom.getText();</span>
+<span class="nc" id="L475">   Categorie cat = (Categorie) cmbCategorie.getSelectedItem();</span>
+<span class="nc" id="L476">   int idCat = cat.getIdCat();</span>
+<span class="nc" id="L477">   float prix =Float.parseFloat(txtPrix.getText()) ;</span>
+
+<span class="nc" id="L479">   pcontroller.addNewProduit(code, nom, prix,  idCat);</span>
+<span class="nc" id="L480">   cmbProduit.removeAllItems();</span>
+<span class="nc" id="L481">   remplircmbProduit_2();</span>
+<span class="nc" id="L482">   remplircmbProduit();</span>
+<span class="nc" id="L483">}</span>
+
+
+private void annlerAjouterProduit(){
+ 
+<span class="nc" id="L488">    dashboardPanel.setVisible(false);</span>
+<span class="nc" id="L489">      ajouterProduitPanel.setVisible(false);</span>
+<span class="nc" id="L490">         GestionProduitsPanel.setVisible(true);</span>
+<span class="nc" id="L491">}</span>
+private void afficherModifierProduit() {
+    // Cachez tous les autres panneaux si nécessaire
+<span class="nc" id="L494">    GestionProduitsPanel.setVisible(false);</span>
+<span class="nc" id="L495">    dashboardPanel.setVisible(false);</span>
+<span class="nc" id="L496">      ajouterProduitPanel.setVisible(true);</span>
+      
+    
+<span class="nc" id="L499"> }</span>
+
+
+
+
+
+ //partie Entree Stock 
+ 
+//Create new EntrerStock et stocker dans base de donnee
+
+public void saveEntreeStock(){
+    try{
+<span class="nc" id="L511">    Produit p = (Produit)cmbProduit.getSelectedItem();</span>
+  
+<span class="nc" id="L513">    Date dr =sc.parseDate(txtDateReception.getText());</span>
+<span class="nc" id="L514">    sc.createEntreeStock(p, Integer.parseInt(txtQuatiteS.getText()), dr, txtnumFature.getText());</span>
+<span class="nc" id="L515">    txtQuatiteS.setText(&quot;&quot;);</span>
+<span class="nc" id="L516">    txtDateReception.setText(&quot;&quot;);</span>
+<span class="nc" id="L517">    txtnumFature.setText(&quot;&quot;);</span>
+    
+<span class="nc" id="L519">    }catch(Exception ex){ex.printStackTrace();}</span>
+<span class="nc" id="L520">}</span>
+
+//afficher les entreeStock
+public void showEntreeStock() {
+    try{
+<span class="nc" id="L525">    ArrayList&lt;EntreeStock&gt; es = sc.getRecentEntreesStock();</span>
+<span class="nc" id="L526">    DefaultTableModel dm = (DefaultTableModel)tableES.getModel();</span>
+<span class="nc" id="L527">    dm.setRowCount(0);</span>
+    
+<span class="nc bnc" id="L529" title="All 2 branches missed.">    for(EntreeStock entre :es){</span>
+        
+<span class="nc" id="L531">      dm.addRow(new Object[]{sc.formatDate(entre.getDateReception()),entre.getProduit().getNomP(),entre.getQuantite(),entre.getNumeroFacture()});</span>
+      
+<span class="nc" id="L533">     }</span>
+<span class="nc" id="L534">    }catch(Exception e){</span>
+<span class="nc" id="L535">             e.printStackTrace();</span>
+<span class="nc" id="L536">       }</span>
+    
+<span class="nc" id="L538">}</span>
+
+
+
+
+//partie de sortie du stock
+//insertion d'un sortie de stock dans la base de donnee
+
+public void saveSS() throws Exception{
+<span class="nc" id="L547">    Produit p = (Produit)cmb_produit.getSelectedItem();</span>
+<span class="nc" id="L548">    int quantite = Integer.parseInt(txtQuantiteSS.getText());</span>
+<span class="nc" id="L549">    Date ds = sc.parseDate(txtD_S.getText());</span>
+<span class="nc" id="L550">    sc.saveSS(p, quantite, ds, txtDestination.getText());</span>
+<span class="nc" id="L551">    txtQuantiteSS.setText(&quot;&quot;);</span>
+<span class="nc" id="L552">    txtD_S.setText(&quot;&quot;);</span>
+<span class="nc" id="L553">    txtDestination.setText(&quot;&quot;);</span>
+<span class="nc" id="L554">}</span>
+
+//afficher les sortie de stock
+public void showSortieStock() {
+    try{
+<span class="nc" id="L559">    ArrayList&lt;SortieStock&gt; es = sc.getAllSortieStock();</span>
+<span class="nc" id="L560">    DefaultTableModel dm = (DefaultTableModel)tableSS.getModel();</span>
+<span class="nc" id="L561">    dm.setRowCount(0);</span>
+    
+<span class="nc bnc" id="L563" title="All 2 branches missed.">    for(SortieStock sortie :es){</span>
+        
+<span class="nc" id="L565">      dm.addRow(new Object[]{sc.formatDate(sortie.getDateSortie()),sortie.getProduit().getNomP(),sortie.getQuantite(),sortie.getDestination()});</span>
+      
+<span class="nc" id="L567">     }</span>
+<span class="nc" id="L568">    }catch(Exception e){</span>
+<span class="nc" id="L569">             e.printStackTrace();</span>
+<span class="nc" id="L570">       }</span>
+    
+<span class="nc" id="L572">}</span>
+
+
+
+
+
+
+
+
+//Partie des Gestion des Categorie
+
+//save categorie
+public void enregistrerCate() throws SQLException{
+<span class="nc" id="L585">    String code = txtCodeCategorie.getText();</span>
+<span class="nc" id="L586">    String nom = txtNameCat.getText();</span>
+<span class="nc bnc" id="L587" title="All 4 branches missed.">     if (code.isEmpty() || nom.isEmpty()) {</span>
+<span class="nc" id="L588">        JOptionPane.showMessageDialog(this, </span>
+            &quot;Veuillez remplir tous les champs&quot;,
+            &quot;Erreur&quot;,
+            JOptionPane.WARNING_MESSAGE);
+<span class="nc" id="L592">        return;</span>
+    }
+<span class="nc" id="L594">    ccontroller.addNewCategorie(nom, code);</span>
+<span class="nc" id="L595">}</span>
+
+//recuperer tous les categories
+public void getAllCategories(){
+<span class="nc" id="L599">    DefaultTableModel m = (DefaultTableModel)tableCategorie.getModel();</span>
+<span class="nc" id="L600">    ArrayList&lt;Categorie&gt; l = ccontroller.getGategories();</span>
+<span class="nc" id="L601">    int i=1;</span>
+<span class="nc" id="L602">    m.setRowCount(0);</span>
+<span class="nc bnc" id="L603" title="All 2 branches missed.">    for(Categorie c :l){</span>
+<span class="nc" id="L604">        m.addRow(new Object[]{i,c.getCode(),c.getNomCat()});</span>
+<span class="nc" id="L605">       i++;</span>
+<span class="nc" id="L606">        }</span>
+<span class="nc" id="L607">    l.clear();</span>
+<span class="nc" id="L608"> }</span>
+// supprimer Categorie
+private void supprimerCat() {
+<span class="nc" id="L611">    int id = tableCategorie.getSelectedRow();</span>
+     
+<span class="nc bnc" id="L613" title="All 2 branches missed.">    if (id != -1) {</span>
+<span class="nc" id="L614">        int reponse = JOptionPane.showConfirmDialog(</span>
+            this,
+            &quot;Êtes-vous sûr de vouloir supprimer cette catégorie ?&quot;,
+            &quot;Confirmation de suppression&quot;,
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        
+<span class="nc bnc" id="L622" title="All 2 branches missed.">        if (reponse == JOptionPane.YES_OPTION) {</span>
+<span class="nc" id="L623">            String nomCategorie = tableCategorie.getValueAt(id, 2).toString();</span>
+<span class="nc" id="L624">            ccontroller.supprimerCat(nomCategorie);</span>
+            
+          
+<span class="nc" id="L627">                  getAllCategories();// Rafraîchir la table</span>
+<span class="nc" id="L628">                  cmbCategorie.removeAllItems();</span>
+<span class="nc" id="L629">                 remplir_categorie();// Rafraîchir le combobox</span>
+           
+        }
+<span class="nc" id="L632">    } else {</span>
+<span class="nc" id="L633">        JOptionPane.showMessageDialog(null, &quot;Veuillez sélectionner une catégorie&quot;);</span>
+    }
+<span class="nc" id="L635">}</span>
+
+
+   //Remplir le combobox par les categorie
+public void remplir_categorie(){
+<span class="fc" id="L640">    cmbCategorie.removeAllItems();</span>
+<span class="fc" id="L641">    list = cdao.getCategorie();</span>
+<span class="fc bfc" id="L642" title="All 2 branches covered.">    for(Categorie cat:list){</span>
+<span class="fc" id="L643">        cmbCategorie.addItem(cat);</span>
+<span class="fc" id="L644">    }</span>
+<span class="fc" id="L645">    list.clear();</span>
+<span class="fc" id="L646">} </span>
+
+
+
+
+
+
+// gestion de tableau de bord
+public void totalProduit(){
+   
+   
+        
+<span class="fc" id="L658">}</span>
+       
+
+public void totalValue(){
+     
+    
+       
+    
+<span class="fc" id="L666">}</span>
+
+//recupere total quantite des produit pour l' afficher
+public int getotalQuantite(int quantite){
+<span class="nc" id="L670">    return quantite;</span>
+}
+//recuperer la valeur totaldes produit
+public int getTotalValue(int vt){
+<span class="nc" id="L674">    return vt;</span>
+}
+
+
+
+
+
+
+
+
+
+
+
+// Modifiez votre constructeur pour afficher le tableau de bord par défaut
+
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    // &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+<span class="fc" id="L699">        naveBarePanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L700">        jLabel1 = new javax.swing.JLabel();</span>
+<span class="fc" id="L701">        nameUser = new javax.swing.JLabel();</span>
+<span class="fc" id="L702">        cmdLogout = new javax.swing.JButton();</span>
+<span class="fc" id="L703">        jLabel2 = new javax.swing.JLabel();</span>
+<span class="fc" id="L704">        sideBarePanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L705">        cmdBord = new javax.swing.JButton();</span>
+<span class="fc" id="L706">        cmdGP = new javax.swing.JButton();</span>
+<span class="fc" id="L707">        cmdES = new javax.swing.JButton();</span>
+<span class="fc" id="L708">        cmdSS = new javax.swing.JButton();</span>
+<span class="fc" id="L709">        cmdTestCat = new javax.swing.JButton();</span>
+<span class="fc" id="L710">        dashboardPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L711">        jPanel8 = new javax.swing.JPanel();</span>
+<span class="fc" id="L712">        jPanel11 = new javax.swing.JPanel();</span>
+<span class="fc" id="L713">        jPanel9 = new javax.swing.JPanel();</span>
+<span class="fc" id="L714">        jLabel25 = new javax.swing.JLabel();</span>
+<span class="fc" id="L715">        lbltotalProduit = new javax.swing.JLabel();</span>
+<span class="fc" id="L716">        jPanel12 = new javax.swing.JPanel();</span>
+<span class="fc" id="L717">        jLabel29 = new javax.swing.JLabel();</span>
+<span class="fc" id="L718">        lblValeurTotal = new javax.swing.JLabel();</span>
+<span class="fc" id="L719">        jLabel27 = new javax.swing.JLabel();</span>
+<span class="fc" id="L720">        gestionEntrerStockPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L721">        jLabel13 = new javax.swing.JLabel();</span>
+<span class="fc" id="L722">        jPanel3 = new javax.swing.JPanel();</span>
+<span class="fc" id="L723">        Produit = new javax.swing.JLabel();</span>
+<span class="fc" id="L724">        jLabel14 = new javax.swing.JLabel();</span>
+<span class="fc" id="L725">        txtQuatiteS = new javax.swing.JTextField();</span>
+<span class="fc" id="L726">        jLabel15 = new javax.swing.JLabel();</span>
+<span class="fc" id="L727">        txtDateReception = new javax.swing.JTextField();</span>
+<span class="fc" id="L728">        jLabel16 = new javax.swing.JLabel();</span>
+<span class="fc" id="L729">        txtnumFature = new javax.swing.JTextField();</span>
+<span class="fc" id="L730">        jPanel4 = new javax.swing.JPanel();</span>
+<span class="fc" id="L731">        jScrollPane3 = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L732">        tableES = new javax.swing.JTable();</span>
+<span class="fc" id="L733">        cmdSaveES = new javax.swing.JButton();</span>
+<span class="fc" id="L734">        cmbProduit = new javax.swing.JComboBox&lt;&gt;();</span>
+<span class="fc" id="L735">        testPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L736">        jLabel22 = new javax.swing.JLabel();</span>
+<span class="fc" id="L737">        jPanel6 = new javax.swing.JPanel();</span>
+<span class="fc" id="L738">        jLabel23 = new javax.swing.JLabel();</span>
+<span class="fc" id="L739">        txtCodeCategorie = new javax.swing.JTextField();</span>
+<span class="fc" id="L740">        jLabel24 = new javax.swing.JLabel();</span>
+<span class="fc" id="L741">        txtNameCat = new javax.swing.JTextField();</span>
+<span class="fc" id="L742">        jPanel7 = new javax.swing.JPanel();</span>
+<span class="fc" id="L743">        jScrollPane2 = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L744">        tableCategorie = new javax.swing.JTable();</span>
+<span class="fc" id="L745">        cmdEnregistrerCate = new javax.swing.JButton();</span>
+<span class="fc" id="L746">        cmdSuppCat = new javax.swing.JButton();</span>
+<span class="fc" id="L747">        GestionCategoriePanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L748">        jLabel4 = new javax.swing.JLabel();</span>
+<span class="fc" id="L749">        cmdAddCat = new javax.swing.JButton();</span>
+<span class="fc" id="L750">        cmdDelCat = new javax.swing.JButton();</span>
+<span class="fc" id="L751">        jScrollPane5 = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L752">        tableCategories = new javax.swing.JTable();</span>
+<span class="fc" id="L753">        ajouterCategorieFormPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L754">        jLabel10 = new javax.swing.JLabel();</span>
+<span class="fc" id="L755">        jLabel11 = new javax.swing.JLabel();</span>
+<span class="fc" id="L756">        jLabel12 = new javax.swing.JLabel();</span>
+<span class="fc" id="L757">        txtNomCat = new javax.swing.JTextField();</span>
+<span class="fc" id="L758">        txtCodeCat = new javax.swing.JTextField();</span>
+<span class="fc" id="L759">        cmdSaveCat = new javax.swing.JButton();</span>
+<span class="fc" id="L760">        cmdCancelCat = new javax.swing.JButton();</span>
+<span class="fc" id="L761">        GestionProduitsPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L762">        jLabel3 = new javax.swing.JLabel();</span>
+<span class="fc" id="L763">        jScrollPane1 = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L764">        table = new javax.swing.JTable();</span>
+<span class="fc" id="L765">        cmdAjouterProduit = new javax.swing.JButton();</span>
+<span class="fc" id="L766">        cmdModifier = new javax.swing.JButton();</span>
+<span class="fc" id="L767">        cmdSupprimer = new javax.swing.JButton();</span>
+<span class="fc" id="L768">        gestionSortieStockPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L769">        jPanel1 = new javax.swing.JPanel();</span>
+<span class="fc" id="L770">        jLabel18 = new javax.swing.JLabel();</span>
+<span class="fc" id="L771">        jLabel19 = new javax.swing.JLabel();</span>
+<span class="fc" id="L772">        jLabel20 = new javax.swing.JLabel();</span>
+<span class="fc" id="L773">        jLabel21 = new javax.swing.JLabel();</span>
+<span class="fc" id="L774">        txtQuantiteSS = new javax.swing.JTextField();</span>
+<span class="fc" id="L775">        txtDestination = new javax.swing.JTextField();</span>
+<span class="fc" id="L776">        txtD_S = new javax.swing.JTextField();</span>
+<span class="fc" id="L777">        jPanel5 = new javax.swing.JPanel();</span>
+<span class="fc" id="L778">        jScrollPane4 = new javax.swing.JScrollPane();</span>
+<span class="fc" id="L779">        tableSS = new javax.swing.JTable();</span>
+<span class="fc" id="L780">        cmb_produit = new javax.swing.JComboBox&lt;&gt;();</span>
+<span class="fc" id="L781">        cmdsaveSS = new javax.swing.JButton();</span>
+<span class="fc" id="L782">        jLabel17 = new javax.swing.JLabel();</span>
+<span class="fc" id="L783">        ajouterProduitPanel = new javax.swing.JPanel();</span>
+<span class="fc" id="L784">        jPanel2 = new javax.swing.JPanel();</span>
+<span class="fc" id="L785">        jLabel5 = new javax.swing.JLabel();</span>
+<span class="fc" id="L786">        txtNom = new javax.swing.JTextField();</span>
+<span class="fc" id="L787">        txtPrix = new javax.swing.JTextField();</span>
+<span class="fc" id="L788">        jLabel6 = new javax.swing.JLabel();</span>
+<span class="fc" id="L789">        cmdCancel = new javax.swing.JButton();</span>
+<span class="fc" id="L790">        jLabel9 = new javax.swing.JLabel();</span>
+<span class="fc" id="L791">        cmdSave = new javax.swing.JButton();</span>
+<span class="fc" id="L792">        txtCode = new javax.swing.JTextField();</span>
+<span class="fc" id="L793">        jLabel7 = new javax.swing.JLabel();</span>
+<span class="fc" id="L794">        cmbCategorie = new javax.swing.JComboBox&lt;&gt;();</span>
+<span class="fc" id="L795">        lblAjouterProduit = new javax.swing.JLabel();</span>
+
+<span class="fc" id="L797">        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);</span>
+<span class="fc" id="L798">        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());</span>
+
+<span class="fc" id="L800">        naveBarePanel.setBackground(new java.awt.Color(153, 153, 153));</span>
+
+<span class="fc" id="L802">        jLabel1.setIcon(new javax.swing.ImageIcon(&quot;C:\\Users\\hp\\Pictures\\Contacts_App_Icon-removebg-preview.png&quot;)); // NOI18N</span>
+
+<span class="fc" id="L804">        nameUser.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L805">        nameUser.setForeground(new java.awt.Color(255, 255, 255));</span>
+
+<span class="fc" id="L807">        cmdLogout.setBackground(new java.awt.Color(204, 204, 204));</span>
+<span class="fc" id="L808">        cmdLogout.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 16)); // NOI18N</span>
+<span class="fc" id="L809">        cmdLogout.setForeground(new java.awt.Color(0, 0, 0));</span>
+<span class="fc" id="L810">        cmdLogout.setText(&quot;Logout&quot;);</span>
+
+<span class="fc" id="L812">        jLabel2.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L813">        jLabel2.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L814">        jLabel2.setText(&quot;Gestion de Stock&quot;);</span>
+
+<span class="fc" id="L816">        javax.swing.GroupLayout naveBarePanelLayout = new javax.swing.GroupLayout(naveBarePanel);</span>
+<span class="fc" id="L817">        naveBarePanel.setLayout(naveBarePanelLayout);</span>
+<span class="fc" id="L818">        naveBarePanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L819">            naveBarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L820">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, naveBarePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L821">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L822">                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L823">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L824">                .addComponent(nameUser, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)</span>
+<span class="fc" id="L825">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L826">                .addComponent(jLabel2)</span>
+<span class="fc" id="L827">                .addGap(182, 182, 182)</span>
+<span class="fc" id="L828">                .addComponent(cmdLogout)</span>
+<span class="fc" id="L829">                .addContainerGap())</span>
+        );
+<span class="fc" id="L831">        naveBarePanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L832">            naveBarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L833">            .addGroup(naveBarePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L834">                .addGroup(naveBarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L835">                    .addComponent(jLabel1)</span>
+<span class="fc" id="L836">                    .addGroup(naveBarePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L837">                        .addContainerGap()</span>
+<span class="fc" id="L838">                        .addGroup(naveBarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="fc" id="L839">                            .addComponent(nameUser, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L840">                            .addGroup(naveBarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L841">                                .addComponent(cmdLogout)</span>
+<span class="fc" id="L842">                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))))</span>
+<span class="fc" id="L843">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L846">        getContentPane().add(naveBarePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 840, 70));</span>
+
+<span class="fc" id="L848">        sideBarePanel.setBackground(new java.awt.Color(204, 204, 204));</span>
+
+<span class="fc" id="L850">        cmdBord.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="fc" id="L851">        cmdBord.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L852">        cmdBord.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L853">        cmdBord.setText(&quot;Tableau de bord&quot;);</span>
+
+<span class="fc" id="L855">        cmdGP.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="fc" id="L856">        cmdGP.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L857">        cmdGP.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L858">        cmdGP.setText(&quot;Gestion Produits&quot;);</span>
+<span class="fc" id="L859">        cmdGP.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L861">                cmdGPActionPerformed(evt);</span>
+<span class="nc" id="L862">            }</span>
+        });
+
+<span class="fc" id="L865">        cmdES.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="fc" id="L866">        cmdES.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L867">        cmdES.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L868">        cmdES.setText(&quot;Entrées Stock&quot;);</span>
+<span class="fc" id="L869">        cmdES.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L871">                cmdESActionPerformed(evt);</span>
+<span class="nc" id="L872">            }</span>
+        });
+
+<span class="fc" id="L875">        cmdSS.setBackground(new java.awt.Color(153, 153, 153));</span>
+<span class="fc" id="L876">        cmdSS.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L877">        cmdSS.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L878">        cmdSS.setText(&quot;Sorties Stock&quot;);</span>
+
+<span class="fc" id="L880">        cmdTestCat.setText(&quot;Gestion des Categories&quot;);</span>
+
+<span class="fc" id="L882">        javax.swing.GroupLayout sideBarePanelLayout = new javax.swing.GroupLayout(sideBarePanel);</span>
+<span class="fc" id="L883">        sideBarePanel.setLayout(sideBarePanelLayout);</span>
+<span class="fc" id="L884">        sideBarePanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L885">            sideBarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L886">            .addGroup(sideBarePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L887">                .addContainerGap()</span>
+<span class="fc" id="L888">                .addGroup(sideBarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="fc" id="L889">                    .addComponent(cmdGP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L890">                    .addComponent(cmdSS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L891">                    .addComponent(cmdBord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L892">                    .addComponent(cmdES, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L893">                    .addComponent(cmdTestCat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L894">                .addContainerGap(18, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L896">        sideBarePanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L897">            sideBarePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L898">            .addGroup(sideBarePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L899">                .addGap(61, 61, 61)</span>
+<span class="fc" id="L900">                .addComponent(cmdBord, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L901">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L902">                .addComponent(cmdGP, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L903">                .addGap(20, 20, 20)</span>
+<span class="fc" id="L904">                .addComponent(cmdTestCat)</span>
+<span class="fc" id="L905">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L906">                .addComponent(cmdES, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L907">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L908">                .addComponent(cmdSS, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L909">                .addContainerGap(204, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L912">        getContentPane().add(sideBarePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 66, 210, 500));</span>
+
+<span class="fc" id="L914">        dashboardPanel.setBackground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L915">        dashboardPanel.setLayout(new java.awt.CardLayout());</span>
+
+<span class="fc" id="L917">        jPanel8.setBackground(new java.awt.Color(255, 255, 255));</span>
+
+<span class="fc" id="L919">        jPanel9.setBackground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L920">        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 51, 102), 2));</span>
+
+<span class="fc" id="L922">        jLabel25.setFont(new java.awt.Font(&quot;Arial&quot;, 0, 14)); // NOI18N</span>
+<span class="fc" id="L923">        jLabel25.setText(&quot;Total des Produits&quot;);</span>
+
+<span class="fc" id="L925">        lbltotalProduit.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L926">        lbltotalProduit.setForeground(new java.awt.Color(255, 51, 102));</span>
+
+<span class="fc" id="L928">        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);</span>
+<span class="fc" id="L929">        jPanel9.setLayout(jPanel9Layout);</span>
+<span class="fc" id="L930">        jPanel9Layout.setHorizontalGroup(</span>
+<span class="fc" id="L931">            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L932">            .addGroup(jPanel9Layout.createSequentialGroup()</span>
+<span class="fc" id="L933">                .addGap(191, 191, 191)</span>
+<span class="fc" id="L934">                .addComponent(jLabel25)</span>
+<span class="fc" id="L935">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L936">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()</span>
+<span class="fc" id="L937">                .addContainerGap(239, Short.MAX_VALUE)</span>
+<span class="fc" id="L938">                .addComponent(lbltotalProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L939">                .addGap(132, 132, 132))</span>
+        );
+<span class="fc" id="L941">        jPanel9Layout.setVerticalGroup(</span>
+<span class="fc" id="L942">            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L943">            .addGroup(jPanel9Layout.createSequentialGroup()</span>
+<span class="fc" id="L944">                .addContainerGap()</span>
+<span class="fc" id="L945">                .addComponent(jLabel25)</span>
+<span class="fc" id="L946">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="fc" id="L947">                .addComponent(lbltotalProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L948">                .addContainerGap(45, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L951">        jPanel12.setBackground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L952">        jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 204, 102), 2));</span>
+
+<span class="fc" id="L954">        jLabel29.setFont(new java.awt.Font(&quot;Dialog&quot;, 0, 14)); // NOI18N</span>
+<span class="fc" id="L955">        jLabel29.setText(&quot;Valeur Totale&quot;);</span>
+
+<span class="fc" id="L957">        lblValeurTotal.setFont(new java.awt.Font(&quot;Dialog&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L958">        lblValeurTotal.setForeground(new java.awt.Color(0, 255, 102));</span>
+
+<span class="fc" id="L960">        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);</span>
+<span class="fc" id="L961">        jPanel12.setLayout(jPanel12Layout);</span>
+<span class="fc" id="L962">        jPanel12Layout.setHorizontalGroup(</span>
+<span class="fc" id="L963">            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L964">            .addGroup(jPanel12Layout.createSequentialGroup()</span>
+<span class="fc" id="L965">                .addGap(224, 224, 224)</span>
+<span class="fc" id="L966">                .addComponent(jLabel29)</span>
+<span class="fc" id="L967">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L968">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()</span>
+<span class="fc" id="L969">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L970">                .addComponent(lblValeurTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L971">                .addGap(93, 93, 93))</span>
+        );
+<span class="fc" id="L973">        jPanel12Layout.setVerticalGroup(</span>
+<span class="fc" id="L974">            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L975">            .addGroup(jPanel12Layout.createSequentialGroup()</span>
+<span class="fc" id="L976">                .addContainerGap()</span>
+<span class="fc" id="L977">                .addComponent(jLabel29)</span>
+<span class="fc" id="L978">                .addGap(29, 29, 29)</span>
+<span class="fc" id="L979">                .addComponent(lblValeurTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)</span>
+<span class="fc" id="L980">                .addContainerGap())</span>
+        );
+
+<span class="fc" id="L983">        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);</span>
+<span class="fc" id="L984">        jPanel11.setLayout(jPanel11Layout);</span>
+<span class="fc" id="L985">        jPanel11Layout.setHorizontalGroup(</span>
+<span class="fc" id="L986">            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L987">            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L988">            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+        );
+<span class="fc" id="L990">        jPanel11Layout.setVerticalGroup(</span>
+<span class="fc" id="L991">            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L992">            .addGroup(jPanel11Layout.createSequentialGroup()</span>
+<span class="fc" id="L993">                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L994">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L995">                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+        );
+
+<span class="fc" id="L998">        jLabel27.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L999">        jLabel27.setText(&quot;Tableau de Bord&quot;);</span>
+
+<span class="fc" id="L1001">        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);</span>
+<span class="fc" id="L1002">        jPanel8.setLayout(jPanel8Layout);</span>
+<span class="fc" id="L1003">        jPanel8Layout.setHorizontalGroup(</span>
+<span class="fc" id="L1004">            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1005">            .addGroup(jPanel8Layout.createSequentialGroup()</span>
+<span class="fc" id="L1006">                .addGap(26, 26, 26)</span>
+<span class="fc" id="L1007">                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1008">                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1009">                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1010">                .addContainerGap(20, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L1012">        jPanel8Layout.setVerticalGroup(</span>
+<span class="fc" id="L1013">            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1014">            .addGroup(jPanel8Layout.createSequentialGroup()</span>
+<span class="fc" id="L1015">                .addGap(25, 25, 25)</span>
+<span class="fc" id="L1016">                .addComponent(jLabel27)</span>
+<span class="fc" id="L1017">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L1018">                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1019">                .addGap(37, 37, 37))</span>
+        );
+
+<span class="fc" id="L1022">        dashboardPanel.add(jPanel8, &quot;card2&quot;);</span>
+
+<span class="fc" id="L1024">        getContentPane().add(dashboardPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 66, 610, 490));</span>
+
+<span class="fc" id="L1026">        gestionEntrerStockPanel.setBackground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1027">        gestionEntrerStockPanel.setForeground(new java.awt.Color(255, 255, 255));</span>
+
+<span class="fc" id="L1029">        jLabel13.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1030">        jLabel13.setText(&quot;Entrées de Stock&quot;);</span>
+
+<span class="fc" id="L1032">        Produit.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1033">        Produit.setText(&quot;Produit :&quot;);</span>
+
+<span class="fc" id="L1035">        jLabel14.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1036">        jLabel14.setText(&quot;Quantité :&quot;);</span>
+
+<span class="fc" id="L1038">        jLabel15.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1039">        jLabel15.setText(&quot;Date de Réception :&quot;);</span>
+
+<span class="fc" id="L1041">        jLabel16.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1042">        jLabel16.setText(&quot;Numéro de Facture :&quot;);</span>
+
+<span class="fc" id="L1044">        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, &quot;Entrées Récentes&quot;, javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font(&quot;Arial&quot;, 1, 14))); // NOI18N</span>
+<span class="fc" id="L1045">        jPanel4.setToolTipText(&quot;Entrées recents&quot;);</span>
+<span class="fc" id="L1046">        jPanel4.setName(&quot;Entrées recents&quot;); // NOI18N</span>
+<span class="fc" id="L1047">        jPanel4.setLayout(new java.awt.BorderLayout());</span>
+
+<span class="fc" id="L1049">        tableES.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Date&quot;, &quot;Produit&quot;, &quot;Quantité&quot;, &quot; Facture&quot;
+            }
+        ));
+<span class="fc" id="L1057">        jScrollPane3.setViewportView(tableES);</span>
+
+<span class="fc" id="L1059">        jPanel4.add(jScrollPane3, java.awt.BorderLayout.CENTER);</span>
+
+<span class="fc" id="L1061">        cmdSaveES.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1062">        cmdSaveES.setText(&quot;Enregistrer l'entrée&quot;);</span>
+<span class="fc" id="L1063">        cmdSaveES.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1065">                cmdSaveESActionPerformed(evt);</span>
+<span class="nc" id="L1066">            }</span>
+        });
+
+<span class="fc" id="L1069">        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);</span>
+<span class="fc" id="L1070">        jPanel3.setLayout(jPanel3Layout);</span>
+<span class="fc" id="L1071">        jPanel3Layout.setHorizontalGroup(</span>
+<span class="fc" id="L1072">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1073">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="fc" id="L1074">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1075">                    .addComponent(Produit)</span>
+<span class="fc" id="L1076">                    .addComponent(jLabel14)</span>
+<span class="fc" id="L1077">                    .addComponent(jLabel15)</span>
+<span class="fc" id="L1078">                    .addComponent(jLabel16))</span>
+<span class="fc" id="L1079">                .addGap(183, 183, 183)</span>
+<span class="fc" id="L1080">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1081">                    .addComponent(txtQuatiteS)</span>
+<span class="fc" id="L1082">                    .addComponent(txtDateReception)</span>
+<span class="fc" id="L1083">                    .addComponent(txtnumFature)</span>
+<span class="fc" id="L1084">                    .addComponent(cmbProduit, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))</span>
+<span class="fc" id="L1085">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()</span>
+<span class="fc" id="L1086">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="fc" id="L1087">                    .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="fc" id="L1088">                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L1089">                        .addComponent(cmdSaveES)</span>
+<span class="fc" id="L1090">                        .addGap(15, 15, 15))</span>
+<span class="fc" id="L1091">                    .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="fc" id="L1092">                        .addContainerGap()</span>
+<span class="fc" id="L1093">                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)))</span>
+<span class="fc" id="L1094">                .addContainerGap())</span>
+        );
+<span class="fc" id="L1096">        jPanel3Layout.setVerticalGroup(</span>
+<span class="fc" id="L1097">            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1098">            .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="fc" id="L1099">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1100">                    .addGroup(jPanel3Layout.createSequentialGroup()</span>
+<span class="fc" id="L1101">                        .addComponent(Produit)</span>
+<span class="fc" id="L1102">                        .addGap(29, 29, 29))</span>
+<span class="fc" id="L1103">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()</span>
+<span class="fc" id="L1104">                        .addComponent(cmbProduit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1105">                        .addGap(18, 18, 18)))</span>
+<span class="fc" id="L1106">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1107">                    .addComponent(jLabel14)</span>
+<span class="fc" id="L1108">                    .addComponent(txtQuatiteS, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1109">                .addGap(33, 33, 33)</span>
+<span class="fc" id="L1110">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1111">                    .addComponent(jLabel15)</span>
+<span class="fc" id="L1112">                    .addComponent(txtDateReception, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1113">                .addGap(27, 27, 27)</span>
+<span class="fc" id="L1114">                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1115">                    .addComponent(jLabel16)</span>
+<span class="fc" id="L1116">                    .addComponent(txtnumFature, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1117">                .addGap(16, 16, 16)</span>
+<span class="fc" id="L1118">                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1119">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="fc" id="L1120">                .addComponent(cmdSaveES, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1121">                .addContainerGap())</span>
+        );
+
+<span class="fc" id="L1124">        jPanel4.getAccessibleContext().setAccessibleName(&quot;Entrées recents&quot;);</span>
+
+<span class="fc" id="L1126">        javax.swing.GroupLayout gestionEntrerStockPanelLayout = new javax.swing.GroupLayout(gestionEntrerStockPanel);</span>
+<span class="fc" id="L1127">        gestionEntrerStockPanel.setLayout(gestionEntrerStockPanelLayout);</span>
+<span class="fc" id="L1128">        gestionEntrerStockPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1129">            gestionEntrerStockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1130">            .addGroup(gestionEntrerStockPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1131">                .addContainerGap()</span>
+<span class="fc" id="L1132">                .addGroup(gestionEntrerStockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1133">                    .addGroup(gestionEntrerStockPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1134">                        .addGap(12, 12, 12)</span>
+<span class="fc" id="L1135">                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1136">                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1137">                .addContainerGap(25, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L1139">        gestionEntrerStockPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L1140">            gestionEntrerStockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1141">            .addGroup(gestionEntrerStockPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1142">                .addGap(6, 6, 6)</span>
+<span class="fc" id="L1143">                .addComponent(jLabel13)</span>
+<span class="fc" id="L1144">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L1145">                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1146">                .addContainerGap(16, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L1149">        getContentPane().add(gestionEntrerStockPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 630, 500));</span>
+
+<span class="fc" id="L1151">        testPanel.setBackground(new java.awt.Color(255, 255, 255));</span>
+
+<span class="fc" id="L1153">        jLabel22.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1154">        jLabel22.setText(&quot;Gestion des Categorie&quot;);</span>
+
+<span class="fc" id="L1156">        jLabel23.setText(&quot;Code Categorie :&quot;);</span>
+
+<span class="fc" id="L1158">        txtCodeCategorie.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1160">                txtCodeCategorieActionPerformed(evt);</span>
+<span class="nc" id="L1161">            }</span>
+        });
+
+<span class="fc" id="L1164">        jLabel24.setText(&quot;Nom Categorie :&quot;);</span>
+
+<span class="fc" id="L1166">        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, &quot;Liste des Categories&quot;, javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION));</span>
+
+<span class="fc" id="L1168">        tableCategorie.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;ID&quot;, &quot;Code&quot;, &quot;Nom&quot;
+            }
+        ));
+<span class="fc" id="L1176">        jScrollPane2.setViewportView(tableCategorie);</span>
+
+<span class="fc" id="L1178">        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);</span>
+<span class="fc" id="L1179">        jPanel7.setLayout(jPanel7Layout);</span>
+<span class="fc" id="L1180">        jPanel7Layout.setHorizontalGroup(</span>
+<span class="fc" id="L1181">            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1182">            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)</span>
+        );
+<span class="fc" id="L1184">        jPanel7Layout.setVerticalGroup(</span>
+<span class="fc" id="L1185">            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1186">            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)</span>
+        );
+
+<span class="fc" id="L1189">        cmdEnregistrerCate.setText(&quot;Ajouter&quot;);</span>
+<span class="fc" id="L1190">        cmdEnregistrerCate.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1192">                cmdEnregistrerCateActionPerformed(evt);</span>
+<span class="nc" id="L1193">            }</span>
+        });
+
+<span class="fc" id="L1196">        cmdSuppCat.setText(&quot;Supprimer&quot;);</span>
+<span class="fc" id="L1197">        cmdSuppCat.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1199">                cmdSuppCatActionPerformed(evt);</span>
+<span class="nc" id="L1200">            }</span>
+        });
+
+<span class="fc" id="L1203">        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);</span>
+<span class="fc" id="L1204">        jPanel6.setLayout(jPanel6Layout);</span>
+<span class="fc" id="L1205">        jPanel6Layout.setHorizontalGroup(</span>
+<span class="fc" id="L1206">            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1207">            .addGroup(jPanel6Layout.createSequentialGroup()</span>
+<span class="fc" id="L1208">                .addContainerGap()</span>
+<span class="fc" id="L1209">                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1210">                    .addGroup(jPanel6Layout.createSequentialGroup()</span>
+<span class="fc" id="L1211">                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1212">                            .addComponent(jLabel23)</span>
+<span class="fc" id="L1213">                            .addComponent(jLabel24))</span>
+<span class="fc" id="L1214">                        .addGap(220, 220, 220)</span>
+<span class="fc" id="L1215">                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1216">                            .addComponent(txtCodeCategorie)</span>
+<span class="fc" id="L1217">                            .addComponent(txtNameCat)))</span>
+<span class="fc" id="L1218">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()</span>
+<span class="fc" id="L1219">                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1220">                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()</span>
+<span class="fc" id="L1221">                                .addGap(0, 0, Short.MAX_VALUE)</span>
+<span class="fc" id="L1222">                                .addComponent(cmdEnregistrerCate, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1223">                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L1224">                        .addContainerGap())))</span>
+<span class="fc" id="L1225">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()</span>
+<span class="fc" id="L1226">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L1227">                .addComponent(cmdSuppCat, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1228">                .addContainerGap())</span>
+        );
+<span class="fc" id="L1230">        jPanel6Layout.setVerticalGroup(</span>
+<span class="fc" id="L1231">            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1232">            .addGroup(jPanel6Layout.createSequentialGroup()</span>
+<span class="fc" id="L1233">                .addGap(28, 28, 28)</span>
+<span class="fc" id="L1234">                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1235">                    .addComponent(jLabel23)</span>
+<span class="fc" id="L1236">                    .addComponent(txtCodeCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1237">                .addGap(39, 39, 39)</span>
+<span class="fc" id="L1238">                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1239">                    .addComponent(jLabel24)</span>
+<span class="fc" id="L1240">                    .addComponent(txtNameCat, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1241">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L1242">                .addComponent(cmdEnregistrerCate)</span>
+<span class="fc" id="L1243">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L1244">                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L1245">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L1246">                .addComponent(cmdSuppCat)</span>
+<span class="fc" id="L1247">                .addGap(24, 24, 24))</span>
+        );
+
+<span class="fc" id="L1250">        javax.swing.GroupLayout testPanelLayout = new javax.swing.GroupLayout(testPanel);</span>
+<span class="fc" id="L1251">        testPanel.setLayout(testPanelLayout);</span>
+<span class="fc" id="L1252">        testPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1253">            testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1254">            .addGroup(testPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1255">                .addContainerGap()</span>
+<span class="fc" id="L1256">                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1257">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, testPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1258">                        .addGap(12, 12, 12)</span>
+<span class="fc" id="L1259">                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L1260">                    .addGroup(testPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1261">                        .addComponent(jLabel22)</span>
+<span class="fc" id="L1262">                        .addGap(0, 0, Short.MAX_VALUE)))</span>
+<span class="fc" id="L1263">                .addContainerGap())</span>
+        );
+<span class="fc" id="L1265">        testPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L1266">            testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1267">            .addGroup(testPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1268">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L1269">                .addComponent(jLabel22)</span>
+<span class="fc" id="L1270">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="fc" id="L1271">                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L1272">                .addContainerGap())</span>
+        );
+
+<span class="fc" id="L1275">        getContentPane().add(testPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 620, 490));</span>
+
+<span class="fc" id="L1277">        GestionCategoriePanel.setBackground(new java.awt.Color(255, 255, 255));</span>
+
+<span class="fc" id="L1279">        jLabel4.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1280">        jLabel4.setText(&quot;Gestion des Categories&quot;);</span>
+
+<span class="fc" id="L1282">        cmdAddCat.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L1283">        cmdAddCat.setText(&quot;Ajouter&quot;);</span>
+<span class="fc" id="L1284">        cmdAddCat.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1286">                cmdAddCatActionPerformed(evt);</span>
+<span class="nc" id="L1287">            }</span>
+        });
+
+<span class="fc" id="L1290">        cmdDelCat.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 12)); // NOI18N</span>
+<span class="fc" id="L1291">        cmdDelCat.setText(&quot;Supprimer&quot;);</span>
+<span class="fc" id="L1292">        cmdDelCat.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1294">                cmdDelCatActionPerformed(evt);</span>
+<span class="nc" id="L1295">            }</span>
+        });
+
+<span class="fc" id="L1298">        tableCategories.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;ID&quot;, &quot;Nom Categorie&quot;, &quot;Code&quot;
+            }
+        ));
+<span class="fc" id="L1306">        jScrollPane5.setViewportView(tableCategories);</span>
+
+<span class="fc" id="L1308">        javax.swing.GroupLayout GestionCategoriePanelLayout = new javax.swing.GroupLayout(GestionCategoriePanel);</span>
+<span class="fc" id="L1309">        GestionCategoriePanel.setLayout(GestionCategoriePanelLayout);</span>
+<span class="fc" id="L1310">        GestionCategoriePanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1311">            GestionCategoriePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1312">            .addGroup(GestionCategoriePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1313">                .addGroup(GestionCategoriePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1314">                    .addGroup(GestionCategoriePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1315">                        .addGap(132, 132, 132)</span>
+<span class="fc" id="L1316">                        .addComponent(cmdAddCat, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1317">                        .addGap(93, 93, 93)</span>
+<span class="fc" id="L1318">                        .addComponent(cmdDelCat))</span>
+<span class="fc" id="L1319">                    .addGroup(GestionCategoriePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1320">                        .addGap(134, 134, 134)</span>
+<span class="fc" id="L1321">                        .addComponent(jLabel4))</span>
+<span class="fc" id="L1322">                    .addGroup(GestionCategoriePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1323">                        .addGap(53, 53, 53)</span>
+<span class="fc" id="L1324">                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))</span>
+<span class="fc" id="L1325">                .addContainerGap(84, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L1327">        GestionCategoriePanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L1328">            GestionCategoriePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1329">            .addGroup(GestionCategoriePanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1330">                .addGap(52, 52, 52)</span>
+<span class="fc" id="L1331">                .addComponent(jLabel4)</span>
+<span class="fc" id="L1332">                .addGap(36, 36, 36)</span>
+<span class="fc" id="L1333">                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1334">                .addGap(57, 57, 57)</span>
+<span class="fc" id="L1335">                .addGroup(GestionCategoriePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1336">                    .addComponent(cmdAddCat)</span>
+<span class="fc" id="L1337">                    .addComponent(cmdDelCat))</span>
+<span class="fc" id="L1338">                .addContainerGap(65, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L1341">        getContentPane().add(GestionCategoriePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 590, 480));</span>
+
+<span class="fc" id="L1343">        ajouterCategorieFormPanel.setBackground(new java.awt.Color(255, 255, 255));</span>
+
+<span class="fc" id="L1345">        jLabel10.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1346">        jLabel10.setText(&quot;Ajouter une nouvelle Catégorie&quot;);</span>
+
+<span class="fc" id="L1348">        jLabel11.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1349">        jLabel11.setText(&quot;Nom Catégorie&quot;);</span>
+
+<span class="fc" id="L1351">        jLabel12.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1352">        jLabel12.setText(&quot;Code Catégorie&quot;);</span>
+
+<span class="fc" id="L1354">        txtNomCat.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1356">                txtNomCatActionPerformed(evt);</span>
+<span class="nc" id="L1357">            }</span>
+        });
+
+<span class="fc" id="L1360">        cmdSaveCat.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1361">        cmdSaveCat.setText(&quot;Enregistrer&quot;);</span>
+<span class="fc" id="L1362">        cmdSaveCat.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1364">                cmdSaveCatActionPerformed(evt);</span>
+<span class="nc" id="L1365">            }</span>
+        });
+
+<span class="fc" id="L1368">        cmdCancelCat.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1369">        cmdCancelCat.setText(&quot;Annuler&quot;);</span>
+
+<span class="fc" id="L1371">        javax.swing.GroupLayout ajouterCategorieFormPanelLayout = new javax.swing.GroupLayout(ajouterCategorieFormPanel);</span>
+<span class="fc" id="L1372">        ajouterCategorieFormPanel.setLayout(ajouterCategorieFormPanelLayout);</span>
+<span class="fc" id="L1373">        ajouterCategorieFormPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1374">            ajouterCategorieFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1375">            .addGroup(ajouterCategorieFormPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1376">                .addGroup(ajouterCategorieFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1377">                    .addGroup(ajouterCategorieFormPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1378">                        .addGap(28, 28, 28)</span>
+<span class="fc" id="L1379">                        .addComponent(jLabel12)</span>
+<span class="fc" id="L1380">                        .addGap(44, 44, 44)</span>
+<span class="fc" id="L1381">                        .addComponent(txtCodeCat, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1382">                    .addGroup(ajouterCategorieFormPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1383">                        .addGap(126, 126, 126)</span>
+<span class="fc" id="L1384">                        .addComponent(jLabel10)))</span>
+<span class="fc" id="L1385">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L1386">            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ajouterCategorieFormPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1387">                .addContainerGap(66, Short.MAX_VALUE)</span>
+<span class="fc" id="L1388">                .addGroup(ajouterCategorieFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1389">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ajouterCategorieFormPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1390">                        .addComponent(cmdSaveCat)</span>
+<span class="fc" id="L1391">                        .addGap(72, 72, 72)</span>
+<span class="fc" id="L1392">                        .addComponent(cmdCancelCat, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1393">                        .addGap(113, 113, 113))</span>
+<span class="fc" id="L1394">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ajouterCategorieFormPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1395">                        .addComponent(jLabel11)</span>
+<span class="fc" id="L1396">                        .addGap(28, 28, 28)</span>
+<span class="fc" id="L1397">                        .addComponent(txtNomCat, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1398">                        .addGap(153, 153, 153))))</span>
+        );
+<span class="fc" id="L1400">        ajouterCategorieFormPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L1401">            ajouterCategorieFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1402">            .addGroup(ajouterCategorieFormPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1403">                .addGap(44, 44, 44)</span>
+<span class="fc" id="L1404">                .addComponent(jLabel10)</span>
+<span class="fc" id="L1405">                .addGap(49, 49, 49)</span>
+<span class="fc" id="L1406">                .addGroup(ajouterCategorieFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1407">                    .addComponent(txtNomCat, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1408">                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1409">                .addGap(108, 108, 108)</span>
+<span class="fc" id="L1410">                .addGroup(ajouterCategorieFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="fc" id="L1411">                    .addComponent(txtCodeCat, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)</span>
+<span class="fc" id="L1412">                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L1413">                .addGap(81, 81, 81)</span>
+<span class="fc" id="L1414">                .addGroup(ajouterCategorieFormPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1415">                    .addComponent(cmdSaveCat)</span>
+<span class="fc" id="L1416">                    .addComponent(cmdCancelCat))</span>
+<span class="fc" id="L1417">                .addContainerGap(92, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L1420">        getContentPane().add(ajouterCategorieFormPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 620, 490));</span>
+
+<span class="fc" id="L1422">        GestionProduitsPanel.setBackground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1423">        GestionProduitsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.darkGray, null));</span>
+
+<span class="fc" id="L1425">        jLabel3.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1426">        jLabel3.setText(&quot;Gestion des produits&quot;);</span>
+
+<span class="fc" id="L1428">        table.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Code&quot;, &quot;Nom de Produit&quot;, &quot;Catégorie&quot;, &quot;Quantité&quot;, &quot;Prix Unitaire&quot;
+            }
+        ));
+<span class="fc" id="L1436">        jScrollPane1.setViewportView(table);</span>
+
+<span class="fc" id="L1438">        cmdAjouterProduit.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1439">        cmdAjouterProduit.setText(&quot;Ajouter &quot;);</span>
+<span class="fc" id="L1440">        cmdAjouterProduit.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1442">                cmdAjouterProduitActionPerformed(evt);</span>
+<span class="nc" id="L1443">            }</span>
+        });
+
+<span class="fc" id="L1446">        cmdModifier.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1447">        cmdModifier.setText(&quot;Modifier&quot;);</span>
+<span class="fc" id="L1448">        cmdModifier.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1450">                cmdModifierActionPerformed(evt);</span>
+<span class="nc" id="L1451">            }</span>
+        });
+
+<span class="fc" id="L1454">        cmdSupprimer.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1455">        cmdSupprimer.setText(&quot;Supprimer&quot;);</span>
+<span class="fc" id="L1456">        cmdSupprimer.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1458">                cmdSupprimerActionPerformed(evt);</span>
+<span class="nc" id="L1459">            }</span>
+        });
+
+<span class="fc" id="L1462">        javax.swing.GroupLayout GestionProduitsPanelLayout = new javax.swing.GroupLayout(GestionProduitsPanel);</span>
+<span class="fc" id="L1463">        GestionProduitsPanel.setLayout(GestionProduitsPanelLayout);</span>
+<span class="fc" id="L1464">        GestionProduitsPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1465">            GestionProduitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1466">            .addGroup(GestionProduitsPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1467">                .addGroup(GestionProduitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1468">                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GestionProduitsPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1469">                        .addGap(0, 36, Short.MAX_VALUE)</span>
+<span class="fc" id="L1470">                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1471">                    .addGroup(GestionProduitsPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1472">                        .addGap(60, 60, 60)</span>
+<span class="fc" id="L1473">                        .addComponent(cmdAjouterProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1474">                        .addGap(71, 71, 71)</span>
+<span class="fc" id="L1475">                        .addComponent(cmdModifier, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1476">                        .addGap(51, 51, 51)</span>
+<span class="fc" id="L1477">                        .addComponent(cmdSupprimer)</span>
+<span class="fc" id="L1478">                        .addGap(0, 0, Short.MAX_VALUE)))</span>
+<span class="fc" id="L1479">                .addContainerGap())</span>
+<span class="fc" id="L1480">            .addGroup(GestionProduitsPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1481">                .addGap(161, 161, 161)</span>
+<span class="fc" id="L1482">                .addComponent(jLabel3)</span>
+<span class="fc" id="L1483">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L1485">        GestionProduitsPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L1486">            GestionProduitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1487">            .addGroup(GestionProduitsPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1488">                .addGap(22, 22, 22)</span>
+<span class="fc" id="L1489">                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1490">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L1491">                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1492">                .addGap(37, 37, 37)</span>
+<span class="fc" id="L1493">                .addGroup(GestionProduitsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1494">                    .addComponent(cmdSupprimer)</span>
+<span class="fc" id="L1495">                    .addComponent(cmdModifier)</span>
+<span class="fc" id="L1496">                    .addComponent(cmdAjouterProduit))</span>
+<span class="fc" id="L1497">                .addContainerGap(55, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L1500">        getContentPane().add(GestionProduitsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 620, 490));</span>
+
+<span class="fc" id="L1502">        gestionSortieStockPanel.setBackground(new java.awt.Color(255, 255, 255));</span>
+
+<span class="fc" id="L1504">        jLabel18.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1505">        jLabel18.setText(&quot;Produit :&quot;);</span>
+
+<span class="fc" id="L1507">        jLabel19.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1508">        jLabel19.setText(&quot;Quantité :&quot;);</span>
+
+<span class="fc" id="L1510">        jLabel20.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1511">        jLabel20.setText(&quot;Destination :&quot;);</span>
+
+<span class="fc" id="L1513">        jLabel21.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1514">        jLabel21.setText(&quot;Date de Sortie :&quot;);</span>
+
+<span class="fc" id="L1516">        txtD_S.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1518">                txtD_SActionPerformed(evt);</span>
+<span class="nc" id="L1519">            }</span>
+        });
+
+<span class="fc" id="L1522">        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, &quot;Sorties Récentes&quot;, javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font(&quot;Arial&quot;, 1, 14))); // NOI18N</span>
+
+<span class="fc" id="L1524">        tableSS.setModel(new javax.swing.table.DefaultTableModel(</span>
+            new Object [][] {
+
+            },
+            new String [] {
+                &quot;Date&quot;, &quot;Produit&quot;, &quot;Quantité&quot;, &quot;Destination&quot;
+            }
+        ));
+<span class="fc" id="L1532">        jScrollPane4.setViewportView(tableSS);</span>
+
+<span class="fc" id="L1534">        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);</span>
+<span class="fc" id="L1535">        jPanel5.setLayout(jPanel5Layout);</span>
+<span class="fc" id="L1536">        jPanel5Layout.setHorizontalGroup(</span>
+<span class="fc" id="L1537">            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1538">            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)</span>
+        );
+<span class="fc" id="L1540">        jPanel5Layout.setVerticalGroup(</span>
+<span class="fc" id="L1541">            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1542">            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+        );
+
+<span class="fc" id="L1545">        cmb_produit.setToolTipText(&quot;&quot;);</span>
+
+<span class="fc" id="L1547">        cmdsaveSS.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 14)); // NOI18N</span>
+<span class="fc" id="L1548">        cmdsaveSS.setText(&quot;Enregistrer la sortie&quot;);</span>
+<span class="fc" id="L1549">        cmdsaveSS.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1551">                cmdsaveSSActionPerformed(evt);</span>
+<span class="nc" id="L1552">            }</span>
+        });
+
+<span class="fc" id="L1555">        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);</span>
+<span class="fc" id="L1556">        jPanel1.setLayout(jPanel1Layout);</span>
+<span class="fc" id="L1557">        jPanel1Layout.setHorizontalGroup(</span>
+<span class="fc" id="L1558">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1559">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="fc" id="L1560">                .addContainerGap()</span>
+<span class="fc" id="L1561">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1562">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="fc" id="L1563">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="fc" id="L1564">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="fc" id="L1565">                                .addComponent(jLabel20)</span>
+<span class="fc" id="L1566">                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L1567">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="fc" id="L1568">                                    .addComponent(txtD_S, javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="fc" id="L1569">                                    .addComponent(txtDestination, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)))</span>
+<span class="fc" id="L1570">                            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="fc" id="L1571">                                .addGap(0, 0, Short.MAX_VALUE)</span>
+<span class="fc" id="L1572">                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)</span>
+<span class="fc" id="L1573">                                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="fc" id="L1574">                                        .addComponent(jLabel18)</span>
+<span class="fc" id="L1575">                                        .addGap(226, 226, 226)</span>
+<span class="fc" id="L1576">                                        .addComponent(cmb_produit, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1577">                                    .addComponent(txtQuantiteSS, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1578">                                    .addComponent(cmdsaveSS))))</span>
+<span class="fc" id="L1579">                        .addGap(26, 26, 26))</span>
+<span class="fc" id="L1580">                    .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="fc" id="L1581">                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1582">                            .addComponent(jLabel19)</span>
+<span class="fc" id="L1583">                            .addComponent(jLabel21)</span>
+<span class="fc" id="L1584">                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1585">                        .addGap(0, 0, Short.MAX_VALUE))))</span>
+        );
+<span class="fc" id="L1587">        jPanel1Layout.setVerticalGroup(</span>
+<span class="fc" id="L1588">            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1589">            .addGroup(jPanel1Layout.createSequentialGroup()</span>
+<span class="fc" id="L1590">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1591">                    .addComponent(cmb_produit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1592">                    .addComponent(jLabel18))</span>
+<span class="fc" id="L1593">                .addGap(27, 27, 27)</span>
+<span class="fc" id="L1594">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1595">                    .addComponent(jLabel19)</span>
+<span class="fc" id="L1596">                    .addComponent(txtQuantiteSS, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1597">                .addGap(28, 28, 28)</span>
+<span class="fc" id="L1598">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1599">                    .addComponent(txtDestination, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1600">                    .addComponent(jLabel20))</span>
+<span class="fc" id="L1601">                .addGap(31, 31, 31)</span>
+<span class="fc" id="L1602">                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1603">                    .addComponent(jLabel21, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1604">                    .addComponent(txtD_S, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1605">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L1606">                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1607">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)</span>
+<span class="fc" id="L1608">                .addComponent(cmdsaveSS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)</span>
+<span class="fc" id="L1609">                .addContainerGap())</span>
+        );
+
+<span class="fc" id="L1612">        jLabel17.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 24)); // NOI18N</span>
+<span class="fc" id="L1613">        jLabel17.setText(&quot;Sorties de Stock&quot;);</span>
+
+<span class="fc" id="L1615">        javax.swing.GroupLayout gestionSortieStockPanelLayout = new javax.swing.GroupLayout(gestionSortieStockPanel);</span>
+<span class="fc" id="L1616">        gestionSortieStockPanel.setLayout(gestionSortieStockPanelLayout);</span>
+<span class="fc" id="L1617">        gestionSortieStockPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1618">            gestionSortieStockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1619">            .addGroup(gestionSortieStockPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1620">                .addContainerGap()</span>
+<span class="fc" id="L1621">                .addGroup(gestionSortieStockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1622">                    .addGroup(gestionSortieStockPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1623">                        .addGap(12, 12, 12)</span>
+<span class="fc" id="L1624">                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 578, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1625">                    .addComponent(jLabel17))</span>
+<span class="fc" id="L1626">                .addContainerGap(18, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L1628">        gestionSortieStockPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L1629">            gestionSortieStockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1630">            .addGroup(gestionSortieStockPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1631">                .addGap(6, 6, 6)</span>
+<span class="fc" id="L1632">                .addComponent(jLabel17)</span>
+<span class="fc" id="L1633">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)</span>
+<span class="fc" id="L1634">                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1635">                .addContainerGap(22, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L1638">        getContentPane().add(gestionSortieStockPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 70, 620, 500));</span>
+
+<span class="fc" id="L1640">        ajouterProduitPanel.setBackground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1641">        ajouterProduitPanel.setForeground(new java.awt.Color(255, 255, 255));</span>
+<span class="fc" id="L1642">        ajouterProduitPanel.setPreferredSize(new java.awt.Dimension(590, 480));</span>
+
+<span class="fc" id="L1644">        jLabel5.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 13)); // NOI18N</span>
+<span class="fc" id="L1645">        jLabel5.setText(&quot;Code&quot;);</span>
+
+<span class="fc" id="L1647">        txtPrix.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1649">                txtPrixActionPerformed(evt);</span>
+<span class="nc" id="L1650">            }</span>
+        });
+
+<span class="fc" id="L1653">        jLabel6.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 13)); // NOI18N</span>
+<span class="fc" id="L1654">        jLabel6.setText(&quot;Nom du Produit&quot;);</span>
+
+<span class="fc" id="L1656">        cmdCancel.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 13)); // NOI18N</span>
+<span class="fc" id="L1657">        cmdCancel.setText(&quot;Annuler&quot;);</span>
+<span class="fc" id="L1658">        cmdCancel.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1660">                cmdCancelActionPerformed(evt);</span>
+<span class="nc" id="L1661">            }</span>
+        });
+
+<span class="fc" id="L1664">        jLabel9.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 13)); // NOI18N</span>
+<span class="fc" id="L1665">        jLabel9.setText(&quot;Prix&quot;);</span>
+
+<span class="fc" id="L1667">        cmdSave.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 13)); // NOI18N</span>
+<span class="fc" id="L1668">        cmdSave.setText(&quot;Enregistrer&quot;);</span>
+<span class="fc" id="L1669">        cmdSave.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1671">                cmdSaveActionPerformed(evt);</span>
+<span class="nc" id="L1672">            }</span>
+        });
+
+<span class="fc" id="L1675">        txtCode.addActionListener(new java.awt.event.ActionListener() {</span>
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+<span class="nc" id="L1677">                txtCodeActionPerformed(evt);</span>
+<span class="nc" id="L1678">            }</span>
+        });
+
+<span class="fc" id="L1681">        jLabel7.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 13)); // NOI18N</span>
+<span class="fc" id="L1682">        jLabel7.setText(&quot;Categorie&quot;);</span>
+
+<span class="fc" id="L1684">        cmbCategorie.setModel(new DefaultComboBoxModel&lt;&gt;());</span>
+
+<span class="fc" id="L1686">        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);</span>
+<span class="fc" id="L1687">        jPanel2.setLayout(jPanel2Layout);</span>
+<span class="fc" id="L1688">        jPanel2Layout.setHorizontalGroup(</span>
+<span class="fc" id="L1689">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1690">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="fc" id="L1691">                .addContainerGap()</span>
+<span class="fc" id="L1692">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1693">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="fc" id="L1694">                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1695">                            .addComponent(jLabel6)</span>
+<span class="fc" id="L1696">                            .addComponent(jLabel5))</span>
+<span class="fc" id="L1697">                        .addGap(27, 27, 27)</span>
+<span class="fc" id="L1698">                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="fc" id="L1699">                            .addComponent(txtCode, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)</span>
+<span class="fc" id="L1700">                            .addComponent(txtNom)))</span>
+<span class="fc" id="L1701">                    .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="fc" id="L1702">                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1703">                            .addComponent(jLabel7)</span>
+<span class="fc" id="L1704">                            .addComponent(jLabel9))</span>
+<span class="fc" id="L1705">                        .addGap(64, 64, 64)</span>
+<span class="fc" id="L1706">                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)</span>
+<span class="fc" id="L1707">                            .addComponent(txtPrix)</span>
+<span class="fc" id="L1708">                            .addComponent(cmbCategorie, 0, 220, Short.MAX_VALUE))))</span>
+<span class="fc" id="L1709">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+<span class="fc" id="L1710">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="fc" id="L1711">                .addGap(67, 67, 67)</span>
+<span class="fc" id="L1712">                .addComponent(cmdSave)</span>
+<span class="fc" id="L1713">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)</span>
+<span class="fc" id="L1714">                .addComponent(cmdCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1715">                .addGap(101, 101, 101))</span>
+        );
+<span class="fc" id="L1717">        jPanel2Layout.setVerticalGroup(</span>
+<span class="fc" id="L1718">            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1719">            .addGroup(jPanel2Layout.createSequentialGroup()</span>
+<span class="fc" id="L1720">                .addGap(41, 41, 41)</span>
+<span class="fc" id="L1721">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1722">                    .addComponent(jLabel5)</span>
+<span class="fc" id="L1723">                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1724">                .addGap(34, 34, 34)</span>
+<span class="fc" id="L1725">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1726">                    .addComponent(jLabel6)</span>
+<span class="fc" id="L1727">                    .addComponent(txtNom, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1728">                .addGap(38, 38, 38)</span>
+<span class="fc" id="L1729">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1730">                    .addComponent(cmbCategorie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1731">                    .addComponent(jLabel7))</span>
+<span class="fc" id="L1732">                .addGap(36, 36, 36)</span>
+<span class="fc" id="L1733">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1734">                    .addComponent(txtPrix, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1735">                    .addComponent(jLabel9))</span>
+<span class="fc" id="L1736">                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)</span>
+<span class="fc" id="L1737">                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)</span>
+<span class="fc" id="L1738">                    .addComponent(cmdSave)</span>
+<span class="fc" id="L1739">                    .addComponent(cmdCancel))</span>
+<span class="fc" id="L1740">                .addGap(83, 83, 83))</span>
+        );
+
+<span class="fc" id="L1743">        lblAjouterProduit.setFont(new java.awt.Font(&quot;Arial&quot;, 1, 18)); // NOI18N</span>
+<span class="fc" id="L1744">        lblAjouterProduit.setText(&quot;Ajouter un nouveau Produit&quot;);</span>
+
+<span class="fc" id="L1746">        javax.swing.GroupLayout ajouterProduitPanelLayout = new javax.swing.GroupLayout(ajouterProduitPanel);</span>
+<span class="fc" id="L1747">        ajouterProduitPanel.setLayout(ajouterProduitPanelLayout);</span>
+<span class="fc" id="L1748">        ajouterProduitPanelLayout.setHorizontalGroup(</span>
+<span class="fc" id="L1749">            ajouterProduitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1750">            .addGroup(ajouterProduitPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1751">                .addGroup(ajouterProduitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1752">                    .addGroup(ajouterProduitPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1753">                        .addGap(35, 35, 35)</span>
+<span class="fc" id="L1754">                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))</span>
+<span class="fc" id="L1755">                    .addGroup(ajouterProduitPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1756">                        .addGap(164, 164, 164)</span>
+<span class="fc" id="L1757">                        .addComponent(lblAjouterProduit)))</span>
+<span class="fc" id="L1758">                .addGap(0, 43, Short.MAX_VALUE))</span>
+        );
+<span class="fc" id="L1760">        ajouterProduitPanelLayout.setVerticalGroup(</span>
+<span class="fc" id="L1761">            ajouterProduitPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)</span>
+<span class="fc" id="L1762">            .addGroup(ajouterProduitPanelLayout.createSequentialGroup()</span>
+<span class="fc" id="L1763">                .addGap(6, 6, 6)</span>
+<span class="fc" id="L1764">                .addComponent(lblAjouterProduit, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1765">                .addGap(18, 18, 18)</span>
+<span class="fc" id="L1766">                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)</span>
+<span class="fc" id="L1767">                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))</span>
+        );
+
+<span class="fc" id="L1770">        getContentPane().add(ajouterProduitPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, 590, 480));</span>
+
+<span class="fc" id="L1772">        pack();</span>
+<span class="fc" id="L1773">    }// &lt;/editor-fold&gt;//GEN-END:initComponents</span>
+
+    private void cmdModifierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdModifierActionPerformed
+                                               
+    // Vérifier si une ligne est sélectionnée
+<span class="nc" id="L1778">    int selectedRow = table.getSelectedRow();</span>
+<span class="nc bnc" id="L1779" title="All 2 branches missed.">    if (selectedRow == -1) {</span>
+<span class="nc" id="L1780">        JOptionPane.showMessageDialog(this, &quot;Veuillez sélectionner un produit à modifier.&quot;, &quot;Aucune sélection&quot;, JOptionPane.WARNING_MESSAGE);</span>
+<span class="nc" id="L1781">        return;</span>
+    }
+
+    // Changer le titre et le texte du bouton
+<span class="nc" id="L1785">    lblAjouterProduit.setText(&quot;Modifier Un Produit&quot;);</span>
+<span class="nc" id="L1786">    cmdSave.setText(&quot;Update&quot;);</span>
+    
+    // Afficher le formulaire de modification et remplir avec les données sélectionnées
+<span class="nc" id="L1789">    afficherModifierProduit();</span>
+<span class="nc" id="L1790">    remplirFormulaireDepuisTable();</span>
+    
+    // Supprimer tous les ActionListeners existants du bouton Save
+<span class="nc bnc" id="L1793" title="All 2 branches missed.">    for (ActionListener al : cmdSave.getActionListeners()) {</span>
+<span class="nc" id="L1794">        cmdSave.removeActionListener(al);</span>
+    }
+    
+    // Ajouter un nouveau ActionListener pour la mise à jour
+<span class="nc" id="L1798">    cmdSave.addActionListener(new ActionListener() {</span>
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+<span class="nc" id="L1802">                String code = txtCode.getText();</span>
+<span class="nc" id="L1803">                String nom = txtNom.getText();</span>
+<span class="nc" id="L1804">                Categorie cat = (Categorie) cmbCategorie.getSelectedItem();</span>
+<span class="nc" id="L1805">                int idCat = cat.getIdCat();</span>
+<span class="nc" id="L1806">                float prix = Float.parseFloat(txtPrix.getText());</span>
+              
+                
+                // Utiliser currentCode comme identifiant original
+<span class="nc" id="L1810">                pcontroller.updateProduit(currentCode, code, nom, prix,  idCat);</span>
+              
+                
+<span class="nc" id="L1813">                    ajouterProduitPanel.setVisible(false);</span>
+<span class="nc" id="L1814">                   GestionProduitsPanel.setVisible(true);</span>
+<span class="nc" id="L1815">                     afficherproduits();</span>
+<span class="nc" id="L1816">                       txtCode.setText(&quot;&quot;);</span>
+<span class="nc" id="L1817">                txtNom.setText(&quot;&quot;);</span>
+<span class="nc" id="L1818">                cmbCategorie.setSelectedIndex(0);</span>
+<span class="nc" id="L1819">                txtCode.setText(&quot;&quot;);</span>
+                
+<span class="nc" id="L1821">                txtPrix.setText(&quot;&quot;);</span>
+               
+<span class="nc" id="L1823">            } catch (Exception ex) {</span>
+<span class="nc" id="L1824">                JOptionPane.showMessageDialog(null, &quot;Erreur: &quot; + ex.getMessage(), &quot;Erreur de modification&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L1825">                System.out.println(ex.getMessage());</span>
+<span class="nc" id="L1826">            }</span>
+<span class="nc" id="L1827">        }</span>
+    });
+
+    
+    
+    
+   
+       
+<span class="nc" id="L1835">    }//GEN-LAST:event_cmdModifierActionPerformed</span>
+
+    private void txtCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodeActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1839">    }//GEN-LAST:event_txtCodeActionPerformed</span>
+
+    private void cmdSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSaveActionPerformed
+          
+<span class="nc" id="L1843">    }//GEN-LAST:event_cmdSaveActionPerformed</span>
+
+    private void txtPrixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrixActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1847">    }//GEN-LAST:event_txtPrixActionPerformed</span>
+
+    private void cmdAjouterProduitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAjouterProduitActionPerformed
+         
+<span class="nc" id="L1851">        lblAjouterProduit.setText(&quot;Ajoute Un nouveau Produit&quot;);</span>
+<span class="nc" id="L1852">    cmdSave.setText(&quot;Save&quot;);</span>
+   
+    
+    // Supprimer tous les ActionListeners existants du bouton Save
+<span class="nc bnc" id="L1856" title="All 2 branches missed.">    for (ActionListener al : cmdSave.getActionListeners()) {</span>
+<span class="nc" id="L1857">        cmdSave.removeActionListener(al);</span>
+    }
+    
+    // Ajouter un nouveau ActionListener pour la mise à jour
+<span class="nc" id="L1861">    cmdSave.addActionListener(new ActionListener() {</span>
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+<span class="nc" id="L1865">                 ajouterProduit();</span>
+<span class="nc" id="L1866">                 txtCode.setText(&quot;&quot;);</span>
+<span class="nc" id="L1867">                txtNom.setText(&quot;&quot;);</span>
+<span class="nc" id="L1868">                cmbCategorie.setSelectedIndex(0);</span>
+<span class="nc" id="L1869">                txtCode.setText(&quot;&quot;);</span>
+              
+<span class="nc" id="L1871">                txtPrix.setText(&quot;&quot;);</span>
+<span class="nc" id="L1872">                    ajouterProduitPanel.setVisible(false);</span>
+<span class="nc" id="L1873">                   GestionProduitsPanel.setVisible(true);</span>
+<span class="nc" id="L1874">                     afficherproduits();</span>
+
+               
+<span class="nc" id="L1877">            } catch (Exception ex) {</span>
+<span class="nc" id="L1878">                JOptionPane.showMessageDialog(null, &quot;Erreur: &quot; + ex.getMessage(), &quot;Erreur de modification&quot;, JOptionPane.ERROR_MESSAGE);</span>
+<span class="nc" id="L1879">                System.out.println(ex.getMessage());</span>
+<span class="nc" id="L1880">            }</span>
+<span class="nc" id="L1881">        }</span>
+    });
+
+ 
+<span class="nc" id="L1885">    }//GEN-LAST:event_cmdAjouterProduitActionPerformed</span>
+
+    private void cmdCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCancelActionPerformed
+<span class="nc" id="L1888">       annlerAjouterProduit();</span>
+<span class="nc" id="L1889">    }//GEN-LAST:event_cmdCancelActionPerformed</span>
+
+    private void cmdSupprimerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSupprimerActionPerformed
+     
+<span class="nc" id="L1893">            supprimerProduit();</span>
+ 
+<span class="nc" id="L1895">    }//GEN-LAST:event_cmdSupprimerActionPerformed</span>
+
+    private void cmdESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdESActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1899">    }//GEN-LAST:event_cmdESActionPerformed</span>
+
+    private void cmdAddCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAddCatActionPerformed
+      
+<span class="nc" id="L1903">       afficherAjouterCatForm();</span>
+            
+<span class="nc" id="L1905">    }//GEN-LAST:event_cmdAddCatActionPerformed</span>
+
+    private void cmdSaveCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSaveCatActionPerformed
+       
+<span class="nc" id="L1909">    }//GEN-LAST:event_cmdSaveCatActionPerformed</span>
+
+    private void cmdDelCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdDelCatActionPerformed
+     
+<span class="nc" id="L1913">    }//GEN-LAST:event_cmdDelCatActionPerformed</span>
+
+    private void cmdGPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdGPActionPerformed
+<span class="nc" id="L1916">         afficherGestionProduits();</span>
+<span class="nc" id="L1917">    }//GEN-LAST:event_cmdGPActionPerformed</span>
+
+    private void txtD_SActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtD_SActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1921">    }//GEN-LAST:event_txtD_SActionPerformed</span>
+
+    private void cmdSaveESActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSaveESActionPerformed
+       
+<span class="nc" id="L1925">    }//GEN-LAST:event_cmdSaveESActionPerformed</span>
+
+    private void cmdsaveSSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdsaveSSActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1929">    }//GEN-LAST:event_cmdsaveSSActionPerformed</span>
+
+    private void txtCodeCategorieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodeCategorieActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1933">    }//GEN-LAST:event_txtCodeCategorieActionPerformed</span>
+
+    private void cmdEnregistrerCateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdEnregistrerCateActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1937">    }//GEN-LAST:event_cmdEnregistrerCateActionPerformed</span>
+
+    private void cmdSuppCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdSuppCatActionPerformed
+<span class="nc" id="L1940">       supprimerCat();</span>
+     
+<span class="nc" id="L1942">    }//GEN-LAST:event_cmdSuppCatActionPerformed</span>
+
+    private void txtNomCatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomCatActionPerformed
+        // TODO add your handling code here:
+<span class="nc" id="L1946">    }//GEN-LAST:event_txtNomCatActionPerformed</span>
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //&lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot; Look and feel setting code (optional) &quot;&gt;
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+<span class="nc bnc" id="L1958" title="All 2 branches missed.">            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {</span>
+<span class="nc bnc" id="L1959" title="All 2 branches missed.">                if (&quot;Nimbus&quot;.equals(info.getName())) {</span>
+<span class="nc" id="L1960">                    javax.swing.UIManager.setLookAndFeel(info.getClassName());</span>
+<span class="nc" id="L1961">                    break;</span>
+                }
+            }
+<span class="nc" id="L1964">        } catch (ClassNotFoundException ex) {</span>
+<span class="nc" id="L1965">            java.util.logging.Logger.getLogger(UserIHM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L1966">        } catch (InstantiationException ex) {</span>
+<span class="nc" id="L1967">            java.util.logging.Logger.getLogger(UserIHM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L1968">        } catch (IllegalAccessException ex) {</span>
+<span class="nc" id="L1969">            java.util.logging.Logger.getLogger(UserIHM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L1970">        } catch (javax.swing.UnsupportedLookAndFeelException ex) {</span>
+<span class="nc" id="L1971">            java.util.logging.Logger.getLogger(UserIHM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);</span>
+<span class="nc" id="L1972">        }</span>
+        //&lt;/editor-fold&gt;
+
+        /* Create and display the form */
+<span class="nc" id="L1976">        java.awt.EventQueue.invokeLater(new Runnable() {</span>
+            public void run() {
+<span class="nc" id="L1978">                new UserIHM().setVisible(true);</span>
+<span class="nc" id="L1979">            }</span>
+        });
+<span class="nc" id="L1981">    }</span>
+    
+    
+    
+    
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel GestionCategoriePanel;
+    private javax.swing.JPanel GestionProduitsPanel;
+    private javax.swing.JLabel Produit;
+    private javax.swing.JPanel ajouterCategorieFormPanel;
+    private javax.swing.JPanel ajouterProduitPanel;
+    private javax.swing.JComboBox&lt;Categorie&gt; cmbCategorie;
+    private javax.swing.JComboBox&lt;Produit&gt; cmbProduit;
+    private javax.swing.JComboBox&lt;Produit&gt; cmb_produit;
+    private javax.swing.JButton cmdAddCat;
+    private javax.swing.JButton cmdAjouterProduit;
+    private javax.swing.JButton cmdBord;
+    private javax.swing.JButton cmdCancel;
+    private javax.swing.JButton cmdCancelCat;
+    private javax.swing.JButton cmdDelCat;
+    private javax.swing.JButton cmdES;
+    private javax.swing.JButton cmdEnregistrerCate;
+    private javax.swing.JButton cmdGP;
+    private javax.swing.JButton cmdLogout;
+    private javax.swing.JButton cmdModifier;
+    private javax.swing.JButton cmdSS;
+    private javax.swing.JButton cmdSave;
+    private javax.swing.JButton cmdSaveCat;
+    private javax.swing.JButton cmdSaveES;
+    private javax.swing.JButton cmdSuppCat;
+    private javax.swing.JButton cmdSupprimer;
+    private javax.swing.JButton cmdTestCat;
+    private javax.swing.JButton cmdsaveSS;
+    private javax.swing.JPanel dashboardPanel;
+    private javax.swing.JPanel gestionEntrerStockPanel;
+    private javax.swing.JPanel gestionSortieStockPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JLabel lblAjouterProduit;
+    private javax.swing.JLabel lblValeurTotal;
+    private javax.swing.JLabel lbltotalProduit;
+    private javax.swing.JLabel nameUser;
+    private javax.swing.JPanel naveBarePanel;
+    private javax.swing.JPanel sideBarePanel;
+    private javax.swing.JTable table;
+    private javax.swing.JTable tableCategorie;
+    private javax.swing.JTable tableCategories;
+    private javax.swing.JTable tableES;
+    private javax.swing.JTable tableSS;
+    private javax.swing.JPanel testPanel;
+    private javax.swing.JTextField txtCode;
+    private javax.swing.JTextField txtCodeCat;
+    private javax.swing.JTextField txtCodeCategorie;
+    private javax.swing.JTextField txtD_S;
+    private javax.swing.JTextField txtDateReception;
+    private javax.swing.JTextField txtDestination;
+    private javax.swing.JTextField txtNameCat;
+    private javax.swing.JTextField txtNom;
+    private javax.swing.JTextField txtNomCat;
+    private javax.swing.JTextField txtPrix;
+    private javax.swing.JTextField txtQuantiteSS;
+    private javax.swing.JTextField txtQuatiteS;
+    private javax.swing.JTextField txtnumFature;
+    // End of variables declaration//GEN-END:variables
+
+<span class="pc" id="L2087">private ProduitController pcontroller = new ProduitController();</span>
+<span class="pc" id="L2088">private CategorieDAO cdao = new CategorieDAO();</span>
+<span class="pc" id="L2089">private ProduitDAO pdao = new ProduitDAO();</span>
+<span class="pc" id="L2090">private CategorieController ccontroller = new CategorieController();</span>
+private ArrayList&lt;Categorie&gt;list;
+
+private ArrayList&lt;Produit&gt;listProduit;
+private ArrayList&lt;Produit&gt;listProduit2;
+private DefaultTableModel mrd ; 
+
+<span class="pc" id="L2097">private StockController sc = new StockController();</span>
+  
+
+private static String currentCode;
+
+    
+    
+    
+    
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

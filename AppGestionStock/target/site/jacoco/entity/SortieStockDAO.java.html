@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SortieStockDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">App_gestionStock</a> &gt; <a href="index.source.html" class="el_package">entity</a> &gt; <span class="el_source">SortieStockDAO.java</span></div><h1>SortieStockDAO.java</h1><pre class="source lang-java linenums">/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package entity;
+
+import dataBase.DB;
+import exceptions.InvalidePrixException;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author hp
+ */
+<span class="fc" id="L21">public class SortieStockDAO {</span>
+    private SortieStock ss;
+<span class="fc" id="L23">    private ProduitDAO produitDAO= new ProduitDAO();</span>
+    
+    
+    //methode pour inserer une sortie de stock
+    
+    public boolean saveSS(SortieStock ss){
+        try{
+<span class="nc" id="L30">            PreparedStatement ps = DB.getInstance().prepareStatement(&quot;insert into sortie_stock (code_produit, quantite, date_sortie, destination) values(?, ?, ?, ?)&quot;,Statement.RETURN_GENERATED_KEYS);</span>
+<span class="nc" id="L31">            ps.setString(1, ss.getProduit().getCode());</span>
+<span class="nc" id="L32">            ps.setInt(2, ss.getQuantite());</span>
+<span class="nc" id="L33">           ps.setDate(3, new java.sql.Date(ss.getDateSortie().getTime()));</span>
+<span class="nc" id="L34">           ps.setString(4, ss.getDestination());</span>
+<span class="nc" id="L35">           ps.executeUpdate();</span>
+           
+<span class="nc" id="L37">           ResultSet generatedKeys = ps.getGeneratedKeys();</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">            if (generatedKeys.next()) {</span>
+<span class="nc" id="L39">                ss.setIdSortie(generatedKeys.getInt(1));</span>
+            }
+<span class="nc" id="L41">           return true;</span>
+            
+            
+<span class="nc" id="L44">        }catch(Exception ex){</span>
+<span class="nc" id="L45">            return false;</span>
+        }
+    }
+      public ArrayList&lt;SortieStock&gt; findAll() throws Exception {
+<span class="nc" id="L49">        ArrayList&lt;SortieStock&gt; entrees = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L50">        String sql = &quot;SELECT * FROM sortie_stock ORDER BY date_sortie DESC&quot;;</span>
+        
+<span class="nc" id="L52">          Statement st = DB.getInstance().createStatement();</span>
+          
+<span class="nc" id="L54">             ResultSet rs = st.executeQuery(sql) ;</span>
+            
+<span class="nc bnc" id="L56" title="All 2 branches missed.">            while (rs.next()) {</span>
+<span class="nc" id="L57">                SortieStock sortieStock = new SortieStock();</span>
+<span class="nc" id="L58">                sortieStock.setIdSortie(rs.getInt(&quot;id_sortie&quot;));</span>
+                
+<span class="nc" id="L60">                Produit produit = produitDAO.findByCode(rs.getString(&quot;code_produit&quot;));</span>
+<span class="nc" id="L61">                sortieStock.setProduit(produit);</span>
+                
+<span class="nc" id="L63">                sortieStock.setQuantite(rs.getInt(&quot;quantite&quot;));</span>
+<span class="nc" id="L64">                sortieStock.setDateSortie(rs.getDate(&quot;date_sortie&quot;));</span>
+<span class="nc" id="L65">                sortieStock.setDestination(rs.getString(&quot;destination&quot;));</span>
+                
+<span class="nc" id="L67">                entrees.add(sortieStock);</span>
+<span class="nc" id="L68">            }</span>
+        
+<span class="nc" id="L70">        return entrees;</span>
+    }
+ public static void main(String []args) throws Exception{
+<span class="nc" id="L73">     SortieStockDAO dao = new SortieStockDAO();</span>
+<span class="nc" id="L74">     System.out.println(dao.findAll());</span>
+<span class="nc" id="L75"> }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

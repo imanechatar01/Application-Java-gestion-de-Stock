@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StockController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">App_gestionStock</a> &gt; <a href="index.source.html" class="el_package">controllers</a> &gt; <span class="el_source">StockController.java</span></div><h1>StockController.java</h1><pre class="source lang-java linenums">package controllers;
+
+import entity.EntreeStock;
+import entity.Produit;
+import entity.EntreeStockDAO;
+import entity.ProduitDAO;
+import entity.SortieStock;
+import entity.SortieStockDAO;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
+
+/**
+ * Contrôleur pour gérer les entrées de stock
+ */
+public class StockController {
+    private ProduitDAO produitDAO;
+    private EntreeStockDAO entreeStockDAO;
+    private SortieStockDAO sortieStockDAO;
+    
+    private static StockController instance;
+    
+<span class="fc" id="L24">    public StockController() {</span>
+<span class="fc" id="L25">        produitDAO = new ProduitDAO();</span>
+<span class="fc" id="L26">        entreeStockDAO = new EntreeStockDAO();</span>
+<span class="fc" id="L27">        sortieStockDAO = new SortieStockDAO();</span>
+<span class="fc" id="L28">    }</span>
+    
+
+    public Produit getProduitByCode(String code) throws Exception {
+<span class="nc" id="L32">        return produitDAO.findByCode(code);</span>
+    }
+    
+ 
+  
+    /**
+     * Récupère toutes les entrées de stock
+     * @return Liste de toutes les entrées de stock
+     * @throws Exception En cas d'erreur d'accès à la base de données
+     */
+    public ArrayList&lt;EntreeStock&gt; getAllEntreesStock() throws Exception {
+<span class="nc" id="L43">        return entreeStockDAO.findAll();</span>
+    }
+    
+    /**
+     * Récupère les entrées de stock récentes
+     
+     * @return Liste des entrées de stock récentes
+     * @throws Exception En cas d'erreur d'accès à la base de données
+     */
+    public ArrayList&lt;EntreeStock&gt; getRecentEntreesStock() throws Exception {
+<span class="nc" id="L53">        return entreeStockDAO.findRecent();</span>
+    }
+    
+    /**
+     * Récupère une entrée de stock par son ID
+     * @param id ID de l'entrée à rechercher
+     * @return L'entrée de stock trouvée ou null si non trouvée
+     * @throws Exception En cas d'erreur d'accès à la base de données
+     */
+    public EntreeStock getEntreeStockById(int id) throws Exception {
+<span class="nc" id="L63">        return entreeStockDAO.findById(id);</span>
+    }
+    
+    /**
+     * Enregistre ou met à jour une entrée de stock
+     * @param entreeStock L'entrée de stock à sauvegarder
+     * @return true si l'opération a réussi
+     * @throws Exception En cas d'erreur d'accès à la base de données
+     */
+    public boolean saveEntreeStock(EntreeStock entreeStock) throws Exception {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (entreeStock.getIdEntree() == 0) {</span>
+<span class="nc" id="L74">            return entreeStockDAO.save(entreeStock);</span>
+        } else {
+<span class="nc" id="L76">            return entreeStockDAO.update(entreeStock);</span>
+        }
+    }
+    
+    /**
+     * Supprime une entrée de stock
+     * @param id ID de l'entrée à supprimer
+     * @return true si l'opération a réussi
+     * @throws Exception En cas d'erreur d'accès à la base de données
+     */
+    public boolean deleteEntreeStock(int id) throws Exception {
+<span class="nc" id="L87">        return entreeStockDAO.delete(id);</span>
+    }
+    
+    /**
+     * Crée une nouvelle entrée de stock
+     * @param produit Le produit concerné
+     * @param quantite La quantité entrée
+     * @param dateReception La date de réception
+     * @param numeroFacture Le numéro de facture
+     * @return L'entrée de stock créée
+     * @throws Exception En cas d'erreur d'accès à la base de données
+     */
+    public void createEntreeStock(Produit produit, int quantite, Date dateReception, String numeroFacture) throws Exception {
+<span class="nc" id="L100">        EntreeStock entreeStock = new EntreeStock();</span>
+<span class="nc" id="L101">        entreeStock.setProduit(produit);</span>
+<span class="nc" id="L102">        entreeStock.setQuantite(quantite);</span>
+<span class="nc" id="L103">        entreeStock.setDateReception(dateReception);</span>
+<span class="nc" id="L104">        entreeStock.setNumeroFacture(numeroFacture);</span>
+        
+<span class="nc bnc" id="L106" title="All 2 branches missed.">      if( entreeStockDAO.save(entreeStock)){</span>
+<span class="nc" id="L107">          JOptionPane.showMessageDialog(null, &quot;ajouter avec succee&quot;);</span>
+<span class="nc" id="L108">             return;</span>
+      }
+<span class="nc" id="L110">       JOptionPane.showMessageDialog(null, &quot;ajout echouwe&quot;);</span>
+<span class="nc" id="L111">    }</span>
+    
+    /**
+     * Formate une date en chaîne de caractères
+     * @param date Date à formater
+     * @return La date formatée (dd/MM/yyyy)
+     */
+    public String formatDate(Date date) {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (date == null) {</span>
+<span class="nc" id="L120">            return &quot;&quot;;</span>
+        }
+<span class="nc" id="L122">        SimpleDateFormat sdf = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L123">        return sdf.format(date);</span>
+    }
+    
+    /**
+     * Convertit une chaîne de caractères en date
+     * @param dateStr Chaîne à convertir (format dd/MM/yyyy)
+     * @return La date résultante
+     * @throws Exception En cas d'erreur de parsing
+     */
+    public Date parseDate(String dateStr) throws Exception {
+<span class="nc bnc" id="L133" title="All 4 branches missed.">        if (dateStr == null || dateStr.trim().isEmpty()) {</span>
+<span class="nc" id="L134">            return null;</span>
+        }
+<span class="nc" id="L136">        SimpleDateFormat sdf = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;);</span>
+<span class="nc" id="L137">        return sdf.parse(dateStr);</span>
+    }
+    
+    /**
+     * Vérifie si les données d'entrée sont valides
+     * @param produit Produit
+     * @param quantite Quantité
+     * @param dateReception Date de réception
+     * @param numeroFacture Numéro de facture
+     * @return Message d'erreur ou null si toutes les données sont valides
+     */
+    public String validateEntreeStock(Produit produit, int quantite, Date dateReception, String numeroFacture) {
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        if (produit == null) {</span>
+<span class="nc" id="L150">            return &quot;Veuillez sélectionner un produit&quot;;</span>
+        }
+        
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        if (quantite &lt;= 0) {</span>
+<span class="nc" id="L154">            return &quot;La quantité doit être supérieure à zéro&quot;;</span>
+        }
+        
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        if (dateReception == null) {</span>
+<span class="nc" id="L158">            return &quot;Veuillez entrer une date de réception valide&quot;;</span>
+        }
+        
+<span class="nc bnc" id="L161" title="All 4 branches missed.">        if (numeroFacture == null || numeroFacture.trim().isEmpty()) {</span>
+<span class="nc" id="L162">            return &quot;Veuillez entrer un numéro de facture&quot;;</span>
+        }
+        
+<span class="nc" id="L165">        return null; // Pas d'erreur</span>
+    }
+    
+    
+    //Gestion de Sortie des Stock
+    
+    //insertion une sortie d'un stock
+    public void saveSS(Produit p, int quantite , Date ds, String dest ){
+<span class="nc" id="L173">        SortieStock ss = new SortieStock();</span>
+<span class="nc" id="L174">        ss.setProduit(p);</span>
+<span class="nc" id="L175">        ss.setQuantite(quantite);</span>
+<span class="nc" id="L176">        ss.setDateSortie(ds);</span>
+<span class="nc" id="L177">        ss.setDestination(dest);</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        if(sortieStockDAO.saveSS(ss)){</span>
+<span class="nc" id="L179">            JOptionPane.showMessageDialog(null, &quot;sortie du stock inserer avec succee&quot;);</span>
+<span class="nc" id="L180">            return;</span>
+        }
+<span class="nc" id="L182">        JOptionPane.showMessageDialog(null, &quot;insertion de sortie du stock a echoué&quot;);</span>
+<span class="nc" id="L183">    }</span>
+    
+    
+    //recuperer les sortie de stock
+     public ArrayList&lt;SortieStock&gt; getAllSortieStock() throws Exception {
+<span class="nc" id="L188">        return sortieStockDAO.findAll();</span>
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

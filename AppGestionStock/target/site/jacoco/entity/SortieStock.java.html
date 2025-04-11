@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SortieStock.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">App_gestionStock</a> &gt; <a href="index.source.html" class="el_package">entity</a> &gt; <span class="el_source">SortieStock.java</span></div><h1>SortieStock.java</h1><pre class="source lang-java linenums">/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package entity;
+
+import java.util.Date;
+
+/**
+ *
+ * @author hp
+ */
+public class SortieStock {
+    private int idSortie;
+    private Produit produit;
+    private int quantite;
+    private Date dateSortie;
+    private String destination;
+
+<span class="nc" id="L20">    public SortieStock(int idSortie, Produit produit, int quantite, Date dateSortie, String destination) {</span>
+<span class="nc" id="L21">        this.idSortie = idSortie;</span>
+<span class="nc" id="L22">        this.produit = produit;</span>
+<span class="nc" id="L23">        this.quantite = quantite;</span>
+<span class="nc" id="L24">        this.dateSortie = dateSortie;</span>
+<span class="nc" id="L25">        this.destination = destination;</span>
+<span class="nc" id="L26">    }</span>
+
+<span class="nc" id="L28">    public SortieStock() {</span>
+        
+<span class="nc" id="L30">    }</span>
+
+    public int getIdSortie() {
+<span class="nc" id="L33">        return idSortie;</span>
+    }
+
+    public void setIdSortie(int idSortie) {
+<span class="nc" id="L37">        this.idSortie = idSortie;</span>
+<span class="nc" id="L38">    }</span>
+
+    public Produit getProduit() {
+<span class="nc" id="L41">        return produit;</span>
+    }
+
+    public void setProduit(Produit produit) {
+<span class="nc" id="L45">        this.produit = produit;</span>
+<span class="nc" id="L46">    }</span>
+
+    public int getQuantite() {
+<span class="nc" id="L49">        return quantite;</span>
+    }
+
+    public void setQuantite(int quantite) {
+<span class="nc" id="L53">        this.quantite = quantite;</span>
+<span class="nc" id="L54">    }</span>
+
+    public Date getDateSortie() {
+<span class="nc" id="L57">        return dateSortie;</span>
+    }
+
+    public void setDateSortie(Date dateSortie) {
+<span class="nc" id="L61">        this.dateSortie = dateSortie;</span>
+<span class="nc" id="L62">    }</span>
+
+    public String getDestination() {
+<span class="nc" id="L65">        return destination;</span>
+    }
+
+    public void setDestination(String destination) {
+<span class="nc" id="L69">        this.destination = destination;</span>
+<span class="nc" id="L70">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
